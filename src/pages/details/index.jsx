@@ -20,15 +20,17 @@ const Details = () => {
     const [openAuthModal, setOpenAuthModal] = useState(false);
     const [expandDetails, setExpandDetails] = useState(false);
     const [movieData, setMovieData] = useState({});
-    const [isAdded, setIsAdded] = useState(false);
+    const [isAdded, setIsAdded] = useState(fetchWatchlist());
     const [similarMovieData, setSimilarMovieData] = useState([]);
     const { width } = useSelector(state => state.windowSize);
     const { authenticated } = useSelector(state => state.auth);
     const { id } = useParams();
     const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
 
-    const { _id, video_url, title, cast, description, keywords, director, type } = movieData;
-
+    const { _id, video_url, title, description, director, type } = movieData;
+    let { cast, keywords } = movieData;
+    cast = cast?.filter((name, index, array) => array.indexOf(name) === index);
+    keywords = keywords?.filter((name, index, array) => array.indexOf(name) === index);
     useEffect(() => {
         (async () => {
             const res = await fetch(`https://academics.newtonschool.co/api/v1/ott/show/${id}`, { headers: { projectId: 'onm1uplcybcp' } });
@@ -45,13 +47,15 @@ const Details = () => {
         const data = await addRemoveToWatchlist(_id);
         setWatchlistData(data);
         setShowPopup(true);
-        setIsAdded(!watchlistData?.data?.shows.some((movie) => movie._id === _id));
+        const isAlreadyAdded = watchlistData?.data?.shows.some((movie) => movie._id === _id);
+        setIsAdded(!isAlreadyAdded);
     }
 
-    const fetchWatchlist = async () => {
+    async function fetchWatchlist() {
         const list = await getWatchlist();
         const isPresentInList = list?.some((movie) => movie._id === _id);
         setIsAdded(isPresentInList);
+        return isPresentInList;
     }
 
     useEffect(() => {
@@ -98,7 +102,7 @@ const Details = () => {
                                 {
                                     keywords?.map((item) => (
                                         <>
-                                            <Link key={item}>
+                                            <Link key={item + 'k1'}>
                                                 <span className="text-[#a785ff] capitalize">{item}</span>
                                             </Link>
                                             <div className="dot"></div>
@@ -136,10 +140,9 @@ const Details = () => {
                                         <div className="castDiv mt-8">
                                             <p className="castTitle text-sm font-semibold mb-4 text-[#ffffff80]">Cast:</p>
                                             <div className="flex gap-4 mb-6">
-
                                                 {
                                                     cast?.map((name) => (
-                                                        <Link key={name}>
+                                                        <Link key={name + 'c1'}>
                                                             <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                         </Link>
                                                     ))
@@ -182,14 +185,46 @@ const Details = () => {
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
                     cast?.map((name) => (
-                        <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + 'c2'} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {
                     keywords?.map((name) => (
-                        <Tray key={name} keywords={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + 'k2'} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
+
+                <div>
+                    <h2 className="text-lg font-bold capitalize mb-4">Details about {title} {type}:</h2>
+                    <div className="border-2 rounded-lg border-[#2c2531] py-2 px-4">
+                        <div className="genre py-4 flex ">
+                            <strong className="w-36 pr-4">Genres</strong>
+                            <ul className="flex flex-wrap gap-2">
+                                {
+                                    keywords?.map((name) => (
+                                        <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className="genre py-2 flex ">
+                            <strong className="w-36 pr-4">Cast</strong>
+                            <ul className="flex flex-wrap gap-2">
+                                {
+                                    cast?.map((name) => (
+                                        <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className="genre py-2 flex ">
+                            <strong className="w-36 pr-4">Director</strong>
+                            <ul className="flex flex-wrap gap-2">
+                                <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{director}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
             <Popup message={watchlistData?.message} isOpen={showPopup} onClose={() => setShowPopup(false)} />
         </>

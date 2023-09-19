@@ -23,7 +23,7 @@ const Footer = () => {
     }, [dispatch])
 
     return (
-        <footer ref={footerRef} className='h-[500px] w-full p-[5%]'>
+        <footer ref={footerRef} className='h-[500px] w-full py-[1%] px-[5%]'>
             <div className='flex mt-8 justify-between lg:flex-row flex-col gap-8 items-center w-full'>
                 <div className="storeIcons flex gap-4 items-center">
                     <h3 className="footerTitle hidden lg:block  text-[#d8d8d8] font-bold text-sm">Download Apps</h3>

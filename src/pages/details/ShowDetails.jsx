@@ -74,7 +74,7 @@ const ShowDetails = () => {
                             <div className="dot"></div>
                             {
                                 keywords?.map((item) => (
-                                    <div key={item} className="flex items-center gap-4">
+                                    <div key={item + Math.random() * 100} className="flex items-center gap-4">
                                         <Link>
                                             <span className="text-[#a785ff] capitalize">{item}</span>
                                         </Link>
@@ -98,7 +98,7 @@ const ShowDetails = () => {
 
                                             {
                                                 cast?.map((name) => (
-                                                    <Link key={name}>
+                                                    <Link key={name + Math.random() * 100}>
                                                         <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                     </Link>
                                                 ))
@@ -131,12 +131,12 @@ const ShowDetails = () => {
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
                     cast?.map((name) => (
-                        <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + Math.random() * 100} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {
                     keywords?.map((name) => (
-                        <Tray key={name} keywords={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + Math.random() * 100} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
             </div>

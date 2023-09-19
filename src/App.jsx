@@ -28,6 +28,8 @@ function App() {
             <Route path='/tvshows' element={<TvShows />} />
             <Route path='/movies' element={<Movies />} />
             <Route path='/webseries' element={<WebSeries />} />
+            <Route path='/signin' element={<Signin />} />
+            <Route path='/register' element={<Register />} />
             <Route path='/details/:id' element={<Details />} />
             <Route path='/details/show/:id' element={<ShowDetails />} />
             <Route path='/search' element={<Search />} />
@@ -67,10 +69,6 @@ function App() {
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Layout>
-        <Routes>
-          <Route path='/signin' element={<Signin />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
       </Router>
     </Provider>
   )

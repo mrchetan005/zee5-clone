@@ -44,7 +44,6 @@ const Sign = ({ details }) => {
             }
         }
 
-
         setFormErrors(prev => ({
             ...prev,
             [name]: msg
@@ -92,7 +91,7 @@ const Sign = ({ details }) => {
 
 
     return (
-        <div className={`bg-black flex justify-center items-center h-screen`}>
+        <div className={`bg-black fixed inset-0 z-[1000] flex justify-center items-center h-screen`}>
             <div
                 className={`m-auto my-20px w-96 text-center text-black bg-white rounded-2xl  py-5 px-1`}
             >

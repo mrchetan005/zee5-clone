@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 
-const Popup = ({ message, isOpen, onClose }) => {
+const Popup = ({ message, isOpen, onClose, hideTime = 2000 }) => {
     const [isVisible, setIsVisible] = useState(isOpen);
 
     useEffect(() => {
         setIsVisible(isOpen);
-
         if (isOpen) {
             const timer = setTimeout(() => {
                 onClose();
-            }, 5000);
+            }, hideTime);
             return () => clearTimeout(timer);
         }
     }, [isOpen, onClose]);

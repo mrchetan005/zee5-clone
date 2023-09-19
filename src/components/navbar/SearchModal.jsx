@@ -12,6 +12,7 @@ import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import WarningPopup from "../utils/warningPopup";
 
+
 const localSearchHistory = JSON.parse(window.localStorage.getItem('search_history_zee5')) || { items: [] };
 
 const suggestionList = ['movie', 'tv show', 'web series', 'video song'];
