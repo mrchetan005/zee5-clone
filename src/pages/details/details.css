@@ -1,0 +1,40 @@
+.dot {
+	height: 8px;
+	width: 8px;
+	background-color: #ffffff33;
+	border-radius: 50%;
+}
+
+.showDetails {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	background-position: top !important;
+}
+
+.backgroundImageOverlay img {
+	width: 100%;
+	aspect-ratio: 20/9;
+	object-fit: cover;
+	object-position: top;
+	filter: saturate(85%) contrast(110%);
+}
+
+@media screen and (max-width: 1200px) {
+	.showDetails {
+		background: #0f0617 !important;
+	}
+}
+
+.showDetailsOverlay {
+	background-image: linear-gradient(to top, #0f0617 0%, transparent 100%),
+		linear-gradient(to right, #0f0617 0%, transparent 100%);
+}
+
+.movieDetails .rightSection .movieCard {
+	padding-inline: 10px;
+	border-block: 10px solid transparent;
+}
+
+.movieDetails .rightSection .movieCard:hover {
+	transform: scale3d(1, 1, 1) translateZ(0) perspective(0);
+}

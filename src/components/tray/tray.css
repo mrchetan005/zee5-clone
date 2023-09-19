@@ -1,0 +1,40 @@
+.tray .arrow-next {
+	right: -55px;
+	padding-inline: 10px;
+	height: 100%;
+	background: linear-gradient(to right, transparent 0%, black 100%);
+	display: grid;
+	place-items: center;
+	right: -50%;
+	padding-right: 50%;
+}
+
+.tray .arrow-prev {
+	left: -35px;
+	padding-inline: 10px;
+	height: 100%;
+	background: linear-gradient(to left, transparent 0%, black 100%);
+	display: grid;
+	place-items: center;
+	left: -100%;
+	padding-left: 100%;
+}
+
+.tray::-webkit-scrollbar {
+	display: none;
+}
+
+@media screen and (max-width: 1200px) {
+	.tray {
+		/* width: 100vw;
+		padding-right: 100px;
+		overflow-x: auto;
+		flex-wrap: nowrap; */
+	}
+	.tray .arrow-next {
+		display: none;
+	}
+	.tray .arrow-prev {
+		display: none;
+	}
+}

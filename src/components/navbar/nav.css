@@ -1,0 +1,131 @@
+.bottomLine {
+	transform: scale(0.1);
+	height: 2px;
+	bottom: 10px;
+	transition: all 0.3s cubic-bezier(0.04, 1.14, 1, 1);
+	background-color: white;
+	opacity: 0;
+}
+
+.navlink:hover .bottomLine {
+	transform: scale(1);
+	opacity: 1;
+}
+
+.navMenu ul.firstHalf::-webkit-scrollbar {
+	display: none;
+}
+
+.secondHalf {
+	padding: 0;
+	height: 0;
+	transform: translate(-50%);
+	width: 200px;
+	border: 1px solid hsla(0, 0%, 100%, 0.11);
+	line-height: 48px;
+	transition: all 0.25s ease-in-out;
+}
+
+.moreMenu:hover .secondHalf {
+	opacity: 1;
+	padding: 16px;
+	height: max-content;
+	max-height: calc(100vh - 100px);
+	overflow-y: overlay;
+}
+
+.searchWrapper {
+	border: 1px solid hsla(0, 0%, 51%, 0.6);
+	transition: all 0.2s ease-in;
+}
+
+.searchWrapper.focus-within {
+	flex-grow: 1;
+	border: 1px solid #da76ff;
+}
+
+.searchWrapper.focus-within form {
+	width: 100%;
+}
+
+.micIcon {
+	opacity: 0;
+	transition: all 0.3s ease-in;
+}
+
+.searchWrapper.focus-within .micIcon {
+	opacity: 1;
+}
+
+.subscribeBtn:hover {
+	background-color: #5c1695;
+	transition: background-color 0.25s ease-in,
+		bottom 0.25s cubic-bezier(0.33, 0.04, 0.63, 0.93);
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.rightMenu {
+	position: absolute;
+	top: 90px;
+	right: 0;
+	width: 360px;
+	width: 0;
+	height: calc(100vh - 100px);
+	overflow-y: overlay;
+	z-index: 50;
+	background-color: #0f0617;
+	left: 300%;
+}
+
+.rightMenu.active {
+	left: unset;
+	width: 360px;
+}
+
+.searchModal {
+	height: calc(100vh - 100px);
+}
+
+.top-searches .topSearchMovieList .movieCard:hover {
+	transform: scale(1);
+	border: 0px solid transparent;
+	background-color: transparent;
+}
+
+.top-searches .topSearchMovieList .movieCard:hover .cardPopUp {
+	left: 3px;
+	right: 3px;
+	border-radius: 8px;
+}
+
+@media screen and (min-width: 2100px) {
+	.top-searches h2 {
+		font-size: 24px;
+	}
+}
+@media screen and (max-width: 1200px) {
+	.rightMenu.active {
+		width: 100%;
+		height: 100vh;
+		left: 0;
+	}
+
+	.top-searches .topSearchMovieList {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+
+	.top-searches .topSearchMovieList .movieCard,
+	.top-searches h2 {
+		padding-inline: 10px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.top-searches .topSearchMovieList {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
