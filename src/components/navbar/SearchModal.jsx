@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +9,7 @@ import MovieCard from "../card";
 import { useSelector } from "react-redux";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
-import WarningPopup from "../utils/warningPopup";
+import WarningPopup from "../utils/WarningPopup.jsx";
 
 
 const localSearchHistory = JSON.parse(window.localStorage.getItem('search_history_zee5')) || { items: [] };

@@ -20,6 +20,8 @@ const WatchButton = ({ size = 32, bgColor = 'white', color = 'black', ...events 
       <PlayArrowIcon sx={{ fontSize: 22 }} />
       <span className={`text-[${size}px]`}>Watch</span>
     </Button>
+
+
   )
 }
 
