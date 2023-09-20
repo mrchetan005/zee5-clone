@@ -12,7 +12,7 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
     const handleShare = async () => {
         try {
             await navigator.share({
-                title: 'Shared from ZEE5 App',
+                title: 'Shared from ZEE5 Cinema App',
                 text: 'Check out this cool content!',
                 url: location.href,
             });

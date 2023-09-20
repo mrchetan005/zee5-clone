@@ -16,7 +16,6 @@ import Skeleton from "../../components/utils/Skeleton";
 import useApi from "../../hooks/useApiService";
 import api from "../../api";
 
-const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
 
 const Details = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -28,6 +27,7 @@ const Details = () => {
     const { width } = useSelector(state => state.windowSize);
     const { authenticated } = useSelector(state => state.auth);
     const { id } = useParams();
+    const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
     const { data: recommendedData, loading, get: getRecommended } = useApi();
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const Details = () => {
     const handleShare = async () => {
         try {
             await navigator.share({
-                title: 'Shared from ZEE5 App',
+                title: 'Shared from ZEE5 Cinema App',
                 text: 'Check out this cool content!',
                 url: location.href,
             });

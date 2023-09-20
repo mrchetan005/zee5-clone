@@ -27,27 +27,35 @@ const Footer = () => {
             <div className='flex mt-8 justify-between lg:flex-row flex-col gap-8 items-center w-full'>
                 <div className="storeIcons flex gap-4 items-center">
                     <h3 className="footerTitle hidden lg:block  text-[#d8d8d8] font-bold text-sm">Download Apps</h3>
-                    <Link>
+                    <a href='https://play.google.com/store/apps/details?id=com.graymatrix.did' target='_blank' rel="noreferrer">
                         <img src={`/assets/icons/play_store.png`} alt="play_store" />
-                    </Link>
-                    <Link>
+                    </a>
+                    <a href='https://apps.apple.com/in/app/zee5-shows-live-tv-movies/id743691886' rel="noreferrer" target='_blank'>
                         <img src={`/assets/icons/app_store.png`} alt="app_store" />
-                    </Link>
+                    </a>
                 </div>
                 <div className="socialIcons flex gap-4 items-center">
                     <h3 className="footerTitle lg:block hidden text-[#d8d8d8] font-bold text-sm">Connect with us</h3>
-                    <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#3c5a99' } }}>
-                        <AiFillFacebook />
-                    </IconButton>
-                    <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#dd2a7b' } }}>
-                        <AiFillInstagram />
-                    </IconButton>
-                    <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#1da1f2' } }}>
-                        <AiFillTwitterCircle />
-                    </IconButton>
-                    <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#c4302b' } }}>
-                        <AiFillYoutube />
-                    </IconButton>
+                    <a href='https://www.facebook.com/ZEE5/' target='_blank' rel="noreferrer">
+                        <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#3c5a99' } }}>
+                            <AiFillFacebook />
+                        </IconButton>
+                    </a>
+                    <a href='https://www.instagram.com/zee5/' target='_blank' rel="noreferrer">
+                        <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#dd2a7b' } }}>
+                            <AiFillInstagram />
+                        </IconButton>
+                    </a>
+                    <a href='https://twitter.com/zee5india' target='_blank' rel="noreferrer">
+                        <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#1da1f2' } }}>
+                            <AiFillTwitterCircle />
+                        </IconButton>
+                    </a>
+                    <a href='https://www.youtube.com/channel/UCXOgAl4w-FQero1ERbGHpXQ' target='_blank' rel="noreferrer">
+                        <IconButton color='inherit' sx={{ '&:hover': { backgroundColor: '#c4302b' } }}>
+                            <AiFillYoutube />
+                        </IconButton>
+                    </a>
                 </div>
             </div>
             <ul className='flex flex-wrap gap-y-4 mt-8 justify-center lg:justify-start py-2 text-xs text-[#ffffffb2]'>
