@@ -92,6 +92,10 @@
 		transform: scale3d(1.2, 1.2, 1) translateZ(0) perspective(500px);
 	}
 
+	.cards:hover {
+		transform: scale3d(1, 1.2, 1) translateZ(0) perspective(500px);
+	}
+
 	.cards:hover .cardPopup,
 	.card:hover .cardPopup {
 		padding-inline: 10px;
@@ -100,5 +104,8 @@
 		transition-delay: 400ms;
 		filter: blur(0);
 		transform: scaleX(1) translateZ(0) perspective(0);
+	}
+	.cards:hover .cardPopup {
+		transform: scaleX(1.2) translateZ(0) perspective(0);
 	}
 }
