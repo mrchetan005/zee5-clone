@@ -29,7 +29,6 @@ const settings = {
     speed: 500,
     slidesToShow: 8,
     slidesToScroll: 8,
-    initialSlide: 0,
     swipeToSlide: true,
     nextArrow: <ArrowNext />,
     prevArrow: <ArrowPrev />,
@@ -39,7 +38,6 @@ const settings = {
             settings: {
                 slidesToShow: 6,
                 slidesToScroll: 6,
-                initialSlide: 0,
             }
         },
         {
@@ -47,7 +45,6 @@ const settings = {
             settings: {
                 slidesToShow: 5,
                 slidesToScroll: 5,
-                initialSlide: 0,
             }
         },
         {
@@ -55,7 +52,6 @@ const settings = {
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 3,
-                initialSlide: 0,
             }
         },
     ]
