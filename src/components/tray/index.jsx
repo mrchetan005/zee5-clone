@@ -32,7 +32,6 @@ const settings = {
     slidesToShow: 8,
     slidesToScroll: 8,
     initialSlide: 0,
-    swipeToSlide: true,
     nextArrow: <ArrowNext />,
     prevArrow: <ArrowPrev />,
     responsive: [
