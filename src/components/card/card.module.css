@@ -108,4 +108,11 @@
 	.cards:hover .cardPopup {
 		transform: scaleX(1.2) translateZ(0) perspective(0);
 	}
+	.cards img {
+		transition: all 0.25s ease-in;
+	}
+	.cards:hover img {
+		transform: scale3d(1.2, 1, 1) translateZ(0) perspective(500px);
+		transition-delay: 400ms;
+	}
 }
