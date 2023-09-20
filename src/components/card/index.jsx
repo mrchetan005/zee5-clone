@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import WatchButton from "../utils/WatchButton";
 import styles from './card.module.css';
 import { PiShareFat } from 'react-icons/pi';
-
-
 
 const MovieCard = ({ _id, thumbnail, title }) => {
     const navigate = useNavigate();
@@ -25,8 +23,15 @@ const MovieCard = ({ _id, thumbnail, title }) => {
             top: 0,
             behavior: "smooth"
         });
-        // navigate(`/details/${id}`);
         navigate(`/details/show/${id}`);
+    }
+
+    const handleWatchClick = (id) => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        navigate(`/details/${id}`);
     }
 
     return (
@@ -41,7 +46,7 @@ const MovieCard = ({ _id, thumbnail, title }) => {
                     <div className={`${styles.cardPopup} cardPopUp`}>
                         <h4 className={styles.title}>{title}</h4>
                         <div className={styles.bottom}>
-                            <div className="cursor-pointer " onClick={() => handleClick(_id)}>
+                            <div className="cursor-pointer " onClick={() => handleWatchClick(_id)}>
                                 <WatchButton size={15} bgColor='#9727A1' color="white" />
                             </div>
                             <div onClick={handleShare} className="hover:text-[#9727A1] flex items-center cursor-pointer font-medium text-[#828282] gap-1">
