@@ -91,7 +91,7 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
             <div className="tray mx-3" >
                 <Slider {...settings}>
                     {
-                        data?.data?.map((movie) => (
+                        data?.map((movie) => (
                             <MovieCard scale={1.1} key={movie._id} {...movie} />
                         ))
                     }

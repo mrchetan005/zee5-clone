@@ -19,7 +19,7 @@ const MovieList = () => {
     const { isIntersecting } = useSelector(state => state.intersection);
 
     useEffect(() => {
-        const fetchMovies = async () => {
+        const getMovies = async () => {
             try {
                 setLoading(true);
                 setError(false);
@@ -34,7 +34,7 @@ const MovieList = () => {
                 setLoading(false);
             }
         }
-        fetchMovies();
+        getMovies();
     }, [page]);
 
     useEffect(() => {

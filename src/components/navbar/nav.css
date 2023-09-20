@@ -91,15 +91,13 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .top-searches .topSearchMovieList .movieCard:hover {
-	transform: scale(1);
+	transform: scale3d(1.1, 1.1, 1);
 	border: 0px solid transparent;
 	background-color: transparent;
 }
 
 .top-searches .topSearchMovieList .movieCard:hover .cardPopUp {
-	left: 3px;
-	right: 3px;
-	border-radius: 8px;
+	display: none;
 }
 
 @media screen and (min-width: 2100px) {

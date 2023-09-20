@@ -8,6 +8,7 @@ import { PiShareFat } from 'react-icons/pi';
 import './details.css';
 import BuyButton from "../../components/utils/BuyButton";
 import { IconButton } from "@mui/material";
+import api from "../../api";
 
 const ShowDetails = () => {
     const [expandDetails, setExpandDetails] = useState(false);
@@ -20,15 +21,16 @@ const ShowDetails = () => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`https://academics.newtonschool.co/api/v1/ott/show/${id}`, { headers: { projectId: 'onm1uplcybcp' } });
-            const data = await res.json();
-            setMovieData(data.data);
+            const response = await api.get(`/show/${id}`);
+            setMovieData(response?.data?.data);
         })();
+    }, [id]);
 
+    useEffect(() => {
         if (width >= 1200) {
             setExpandDetails(true);
         }
-    }, [id, width]);
+    }, [width]);
 
     const handleShare = async () => {
         try {

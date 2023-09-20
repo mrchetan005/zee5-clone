@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import WarningPopup from "../utils/WarningPopup.jsx";
+import useApi from "../../hooks/useApiService";
 
 
 const localSearchHistory = JSON.parse(window.localStorage.getItem('search_history_zee5')) || { items: [] };
@@ -19,18 +20,14 @@ const suggestionList = ['movie', 'tv show', 'web series', 'video song'];
 const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
     const [searchValue, setSearchValue] = useState("");
     const [openWarningModal, setOpenWarningModal] = useState(false);
-    const [movies, setMovies] = useState([]);
     const [searchHistory, setSearchHistory] = useState(localSearchHistory)
     const { width } = useSelector((state) => state.windowSize);
     const navigate = useNavigate();
 
+    const { data, get } = useApi();
+
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch(`https://academics.newtonschool.co/api/v1/ott/show?page=3&limit=10`, { headers: { projectId: 'onm1uplcybcp' } });
-            const data = await res.json();
-            setMovies(data.data);
-        }
-        fetchData();
+        get(`/show?page=3&limit=10`);
     }, []);
 
     const updateSearchHistory = (searchValue) => {
@@ -157,7 +154,7 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
                                             </div>
                                             <div className="topSearchMovieList grid grid-cols-3 py-4 gap-y-4">
                                                 {
-                                                    movies.map((movie) => (
+                                                    data?.map((movie) => (
                                                         <MovieCard key={movie?._id} {...movie} />
                                                     ))
                                                 }

@@ -12,7 +12,11 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AuthRequired from "../../components/authCommon/AuthRequired";
 import { addRemoveToWatchlist, getWatchlist } from "../../api/watchlist";
 import Popup from "../../components/utils/Popup";
+import Skeleton from "../../components/utils/Skeleton";
+import useApi from "../../hooks/useApiService";
+import api from "../../api";
 
+const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
 
 const Details = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -21,27 +25,27 @@ const Details = () => {
     const [expandDetails, setExpandDetails] = useState(false);
     const [movieData, setMovieData] = useState({});
     const [isAdded, setIsAdded] = useState(fetchWatchlist());
-    const [similarMovieData, setSimilarMovieData] = useState([]);
     const { width } = useSelector(state => state.windowSize);
     const { authenticated } = useSelector(state => state.auth);
     const { id } = useParams();
-    const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
+    const { data: recommendedData, loading, get: getRecommended } = useApi();
+
+    useEffect(() => {
+        setIsAdded(false);
+        getRecommended(`/show?page=${randomPage}&limit=10`);
+        (async () => {
+            const data = await api.get(`/show/${id}`);
+            setMovieData(data?.data?.data);
+        })();
+    }, [id]);
 
     const { _id, video_url, title, description, director, type } = movieData;
     let { cast, keywords } = movieData;
     cast = cast?.filter((name, index, array) => array.indexOf(name) === index);
     keywords = keywords?.filter((name, index, array) => array.indexOf(name) === index);
+
     useEffect(() => {
-        (async () => {
-            const res = await fetch(`https://academics.newtonschool.co/api/v1/ott/show/${id}`, { headers: { projectId: 'onm1uplcybcp' } });
-            const similarRes = await fetch(`https://academics.newtonschool.co/api/v1/ott/show?page=${randomPage}&limit=10`, { headers: { projectId: 'onm1uplcybcp' } });
-            const similarData = await similarRes.json();
-            const data = await res.json();
-            setIsAdded(false);
-            setMovieData(data.data);
-            setSimilarMovieData(similarData.data);
-        })()
-    }, [id]);
+    }, [cast, keywords]);
 
     const toggleWatchlistShow = async () => {
         const data = await addRemoveToWatchlist(_id);
@@ -100,10 +104,10 @@ const Details = () => {
                                 <span className="text-[#ffffff80]">2h 7m</span>
                                 <div className="dot"></div>
                                 {
-                                    keywords?.map((item) => (
+                                    keywords?.map((name) => (
                                         <>
-                                            <Link key={item + 'k1'}>
-                                                <span className="text-[#a785ff] capitalize">{item}</span>
+                                            <Link key={name + Math.random() * 100}>
+                                                <span className="text-[#a785ff] capitalize">{name}</span>
                                             </Link>
                                             <div className="dot"></div>
                                         </>
@@ -142,7 +146,7 @@ const Details = () => {
                                             <div className="flex gap-4 mb-6">
                                                 {
                                                     cast?.map((name) => (
-                                                        <Link key={name + 'c1'}>
+                                                        <Link key={name + Math.random() * 100}>
                                                             <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                         </Link>
                                                     ))
@@ -166,12 +170,16 @@ const Details = () => {
                     {
                         width >= 1200 &&
                         <div className="rightSection overflow-y-auto px-1">
-                            <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] ">Recommended Movies For You</h2>
+                            <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] pb-2">Recommended Movies For You</h2>
                             <div className="rightSectionMovies grid grid-cols-2">
                                 {
-                                    similarMovieData.map((movie) => (
+                                    recommendedData?.map((movie) => (
                                         <MovieCard key={movie._id} {...movie} />
                                     ))
+                                }
+                                {
+                                    loading &&
+                                    new Array(20).fill('').map((_, id) => <Skeleton key={id} />)
                                 }
                             </div>
                         </div>
@@ -185,12 +193,12 @@ const Details = () => {
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
                     cast?.map((name) => (
-                        <Tray key={name + 'c2'} cast={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + Math.random() * 100} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {
                     keywords?.map((name) => (
-                        <Tray key={name + 'k2'} keywords={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name + Math.random() * 100} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
 
@@ -202,7 +210,7 @@ const Details = () => {
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     keywords?.map((name) => (
-                                        <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                        <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
                             </ul>
@@ -212,7 +220,7 @@ const Details = () => {
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     cast?.map((name) => (
-                                        <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                        <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
                             </ul>
@@ -220,7 +228,7 @@ const Details = () => {
                         <div className="genre py-2 flex ">
                             <strong className="min-w-[100px] max-w-[100px] pr-4">Director</strong>
                             <ul className="flex flex-wrap gap-2">
-                                <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{director}</li>
+                                <li className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{director}</li>
                             </ul>
                         </div>
                     </div>

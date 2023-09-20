@@ -64,7 +64,7 @@ const HeroSlider = ({ type = 'movie', pageNumber = 2 }) => {
         <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px]  pb-4">
             <Slider {...settings}>
                 {
-                    data?.data?.map(({ title, _id, thumbnail }, index) => (
+                    data?.map(({ title, _id, thumbnail }, index) => (
                         <div key={_id}>
                             <div className="m-auto flex relative" >
                                 <img onClick={() => handleOnClick(_id)} className="w-full h-full aspect-video cursor-pointer px-2 object-cover object-top  max-h-[200px] m-auto" src={`/assets/hero/hero${index + 1}.webp`} alt={title} />

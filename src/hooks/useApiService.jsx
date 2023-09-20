@@ -13,8 +13,10 @@ function useApi() {
         setLoading(true);
         try {
             const response = await api.get(queryPath);
-            setData(response?.data);
-            setMoreData(prev => [...prev, ...response.data.data]);
+            setData(response?.data?.data);
+            if (response?.data?.data) {
+                setMoreData(prev => [...prev, ...response.data.data]);
+            }
             setError(null);
         } catch (err) {
             setError(err);
