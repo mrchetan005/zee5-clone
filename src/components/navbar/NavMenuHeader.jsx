@@ -26,7 +26,7 @@ const NavMenuHeader = ({ active, setActive }) => {
     }, [setShowNumber, width, showNumber]);
 
     return (
-        <div className={`navMenu ${width <= 900 ? 'w-full' : width >= 1800 ? 'w-1/2' : 'w-1/3'}`}>
+        <div className={`navMenu ${width <= 900 ? 'w-full' : width >= 1800 ? 'w-1/2' : 'w-2/5'}`}>
             <div className="text-[#ffffffdd] flex h-16 items-center text-center z-10">
                 <ul className="firstHalf flex overflow-hidden overflow-x-auto list-none items-center">
                     {
