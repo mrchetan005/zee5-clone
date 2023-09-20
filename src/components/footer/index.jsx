@@ -28,10 +28,10 @@ const Footer = () => {
                 <div className="storeIcons flex gap-4 items-center">
                     <h3 className="footerTitle hidden lg:block  text-[#d8d8d8] font-bold text-sm">Download Apps</h3>
                     <Link>
-                        <img src={`/src/assets/icons/play_store.png`} alt="play_store" />
+                        <img src={`/assets/icons/play_store.png`} alt="play_store" />
                     </Link>
                     <Link>
-                        <img src={`/src/assets/icons/app_store.png`} alt="app_store" />
+                        <img src={`/assets/icons/app_store.png`} alt="app_store" />
                     </Link>
                 </div>
                 <div className="socialIcons flex gap-4 items-center">

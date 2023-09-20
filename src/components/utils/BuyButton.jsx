@@ -20,7 +20,7 @@ const BuyButton = () => {
                 <span className="pt-[4px]">
                     BUY PLAN
                 </span>
-                <img className="w-5" src="/src/assets/icons/crown.svg" alt="" />
+                <img className="w-5" src="/assets/icons/crown.svg" alt="" />
             </Button>
         </>
     )

@@ -2,6 +2,8 @@
 import { ArrowBackIosRounded, ArrowForwardIosRounded } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './tray.css';
 import { useEffect } from "react";
 import MovieCard from "../card";
@@ -19,16 +21,17 @@ function ArrowNext({ onClick }) {
 function ArrowPrev({ onClick }) {
     return (
         <div className="arrow-bg">
-            <div onClick={onClick} className="arrow arrow-prev"><ArrowBackIosRounded /></div>
+            <div onClick={onClick} id='prevArrow' className="arrow arrow-prev"><ArrowBackIosRounded /></div>
         </div>
     );
 }
 
 const settings = {
-    infinite: false,
     speed: 500,
+    infinite: true,
     slidesToShow: 8,
     slidesToScroll: 8,
+    initialSlide: 0,
     swipeToSlide: true,
     nextArrow: <ArrowNext />,
     prevArrow: <ArrowPrev />,
@@ -71,7 +74,7 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
         }
 
         const queryString = JSON.stringify(queryObj);
-        get(`/show?filter=${queryString}&page=${pageNumber}&limit=20`);
+        get(`/show?filter=${queryString}&page=${pageNumber}&limit=16`);
     }, []);
 
     return (
@@ -85,7 +88,7 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
                     <ArrowForwardIosRounded sx={{ fontSize: '16px' }} />
                 </Link>
             </div>
-            <div className="tray mx-3 pr-0 sm:pr-10" >
+            <div className="tray mx-3" >
                 <Slider {...settings}>
                     {
                         data?.data?.map((movie) => (

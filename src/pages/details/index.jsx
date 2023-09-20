@@ -198,7 +198,7 @@ const Details = () => {
                     <h2 className="text-lg font-bold capitalize mb-4">Details about {title} {type}:</h2>
                     <div className="border-2 rounded-lg border-[#2c2531] py-2 px-4">
                         <div className="genre py-4 flex ">
-                            <strong className="w-36 pr-4">Genres</strong>
+                            <strong className="min-w-[100px] max-w-[100px]  pr-4">Genres</strong>
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     keywords?.map((name) => (
@@ -208,7 +208,7 @@ const Details = () => {
                             </ul>
                         </div>
                         <div className="genre py-2 flex ">
-                            <strong className="w-36 pr-4">Cast</strong>
+                            <strong className="min-w-[100px] max-w-[100px]  pr-4">Cast</strong>
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     cast?.map((name) => (
@@ -218,7 +218,7 @@ const Details = () => {
                             </ul>
                         </div>
                         <div className="genre py-2 flex ">
-                            <strong className="w-36 pr-4">Director</strong>
+                            <strong className="min-w-[100px] max-w-[100px] pr-4">Director</strong>
                             <ul className="flex flex-wrap gap-2">
                                 <li key={name + 'k3'} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{director}</li>
                             </ul>
