@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { PiShareFat } from 'react-icons/pi';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';

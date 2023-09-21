@@ -133,7 +133,7 @@ const Navbar = () => {
 											</IconButton>
 										</Tooltip>
 										{openProfileModal &&
-											<div className="profileModal rounded-md z-[62] min-w-[300px] absolute top-16   left-0 -translate-x-1/2 bg-[#0F0617]">
+											<div className="profileModal rounded-md z-[62] min-w-[300px] absolute top-16 overflow-y-auto left-0 -translate-x-1/2 bg-[#0F0617]">
 												<Link to={'/profile'} onClick={() => setOpenProfileModal(false)} className="profileBar bg-[#ffffff0f] flex  py-3 px-4 ">
 													<GoPerson className="text-[#828282] bg-[#ffffff1a] text-xl rounded-full h-10 w-10 mr-3 p-2" />
 													<div className="username flex items-center justify-between w-full pr-4">
