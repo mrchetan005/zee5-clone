@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MovieCard from "../../components/card";
-import './movieList.css'
-import Skeleton from "../../components/utils/Skeleton";
+import MovieCard from "../components/card";
+import Skeleton from "../components/utils/Skeleton";
 import { useSelector } from "react-redux";
-import api from "../../api";
+import api from "../api";
 
 
 const randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
@@ -12,7 +11,6 @@ const randomNumber = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
 const MovieList = () => {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(randomNumber);
-    // const [page, setPage] = useState(100);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const { category } = useParams();

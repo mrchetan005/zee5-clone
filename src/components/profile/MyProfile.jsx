@@ -2,13 +2,16 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import './profile.css';
-import Popup from "../../components/utils/Popup";
+import { ArrowBackIosRounded } from "@mui/icons-material";
+import { IconButton } from '@mui/material';
+// import './profile.css';
+import Popup from "../utils/Popup";
 
 const MyProfile = () => {
     const { user } = useSelector(state => state.auth);
     const [updateProfile, setUpdateProfile] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
+    const { width } = useSelector(state => state.windowSize);
     const [formData, setFormData] = useState({
         email: user?.email, name: user?.name
     });
@@ -31,7 +34,15 @@ const MyProfile = () => {
 
     return (
         <div>
-            <h2 className="pageTitle font-bold pb-8 mb-9 border-b-[1px] text-3xl border-b-[hsla(0,0%,48%,.2)]">{updateProfile ? 'Edit Profile' : 'My Profile'}</h2>
+            <div className="flex items-center gap-4 pb-8 mb-9 border-b-[1px] text-xl lg:text-3xl border-b-[hsla(0,0%,48%,.2)]">
+                {
+                    width < 900 && updateProfile &&
+                    <IconButton color="inherit" onClick={() => setUpdateProfile(false)}>
+                        <ArrowBackIosRounded />
+                    </IconButton>
+                }
+                <h2 className="pageTitle font-bold">{updateProfile ? 'Edit Profile' : 'My Profile'}</h2>
+            </div>
             <div>
                 {
                     updateProfile
@@ -60,9 +71,12 @@ const MyProfile = () => {
                                         shrink: true,
                                     }}
                                 />
-                                <div className="flex gap-4 justify-center w-full h-12">
-                                    <Button onClick={() => setUpdateProfile(false)} color="inherit" variant="outlined" className="flex-1"> Go Back</Button>
-                                    <Button type="submit" color="inherit" variant="filled" sx={{ backgroundColor: '#8230c6', transition: 'all 0.3s ease-in-out', '&:hover': { backgroundColor: '#5c1695' } }} className="flex-1">Save Changes</Button>
+                                <div className="flex gap-4 justify-center lg:justify-start h-12">
+                                    {
+                                        width >= 900 &&
+                                        <Button onClick={() => setUpdateProfile(false)} color="inherit" variant="outlined" className="lg:flex-1">Go Back</Button>
+                                    }
+                                    <Button type="submit" color="inherit" variant="filled" sx={{ backgroundColor: '#8230c6', transition: 'all 0.3s ease-in-out', '&:hover': { backgroundColor: '#5c1695' } }} className="lg:flex-1">Save Changes</Button>
                                 </div>
 
                             </form>
@@ -72,7 +86,7 @@ const MyProfile = () => {
                                 {
                                     user.profileImage
                                         ? <img className="w-full h-full object-cover border-2 rounded-full border-[#8230c3]" src="src/assets/hero/hero3.webp" alt="profile" />
-                                        : <div className="h-20 w-20 text-3xl flex items-center justify-center font-bold uppercase bg-[#8230c3]">GU</div>
+                                        : <div className="h-20 w-20 text-3xl flex items-center justify-center font-bold uppercase bg-[#8230c3]">{user?.name?.[0]}</div>
                                 }
                             </div>
                             <div className="userInfo mt-1 ml-4">

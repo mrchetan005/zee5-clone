@@ -1,0 +1,11 @@
+export { default as Home } from './Home';
+export { default as TvShows } from './TvShows';
+export { default as Movies } from './Movies';
+export { default as MovieList } from './MovieList';
+export { default as Details } from './Details';
+export { default as ShowDetails } from './ShowDetails';
+export { default as Profile } from './Profile';
+export { default as Register } from './Register';
+export { default as Signin } from './Signin';
+export { default as Search } from './Search';
+export { default as WebSeries } from './WebSeries';

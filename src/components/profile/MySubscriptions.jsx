@@ -1,4 +1,4 @@
-import NothingToWatch from "../../components/nothingToWatch";
+import NothingToWatch from "../nothingToWatch";
 
 
 const MySubscriptions = () => {

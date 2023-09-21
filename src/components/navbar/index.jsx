@@ -32,6 +32,7 @@ const Navbar = () => {
 	const { width } = useSelector((state) => state.windowSize);
 	const [expandMenu, setExpandMenu] = useState(true);
 	const location = useLocation();
+	const { user } = useSelector(state => state.auth);
 
 	useEffect(() => {
 		let currentActiveNav = navbarItems.find(({ path }) => (path.includes(location?.pathname?.split('/')?.[1])));
@@ -114,9 +115,9 @@ const Navbar = () => {
 								</IconButton>
 							</Tooltip>
 						</div>
-						<Link to={"/"} className={`${width <= 350 ? 'hidden' : ''}`}>
+						<div className={`${width <= 350 ? 'hidden' : ''}`}>
 							<BuyButton />
-						</Link>
+						</div>
 						{width >= 900 && (
 							<>
 								{authenticated ? (
@@ -134,14 +135,14 @@ const Navbar = () => {
 										{openProfileModal &&
 											<div className="profileModal rounded-md z-[62] min-w-[300px] absolute top-16   left-0 -translate-x-1/2 bg-[#0F0617]">
 												<Link to={'/profile'} onClick={() => setOpenProfileModal(false)} className="profileBar bg-[#ffffff0f] flex  py-3 px-4 ">
-													<GoPerson className="text-[#828282] bg-[#ffffff1a] text-xl rounded-full h-10 w-10 mr-2 p-2" />
+													<GoPerson className="text-[#828282] bg-[#ffffff1a] text-xl rounded-full h-10 w-10 mr-3 p-2" />
 													<div className="username flex items-center justify-between w-full pr-4">
-														<h4 className=" text-[#828282] font-semibold text-sm">Guest</h4>
+														<h4 className=" text-[#828282] font-semibold text-base">{user?.name || 'Guest'}</h4>
 														<ArrowForwardIosRoundedIcon sx={{ fontSize: 20, color: '#a785ff' }} />
 													</div>
 												</Link>
 												<ExpandableMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} logout={logout} setOpenModal={setOpenProfileModal} data={expandMenuData} />
-												<div className="versionText border-t-[1px] border-t-[hsla(0,0%,48%,.2)] mt-4 py-5 text-center">
+												<div className="versionText border-t-[1px] border-t-[#7a7a7a33] mt-4 py-5 text-center">
 													<p className="text-xs text-[#ffffff80]">Version 4.6.3</p>
 												</div>
 											</div>
@@ -149,7 +150,7 @@ const Navbar = () => {
 										{
 											openProfileModal &&
 											<div onClick={() => setOpenProfileModal(false)}
-												className={` fixed top-[0px] inset-0 bg-[rgba(0,0,0,0.8)] z-50`}>
+												className={` fixed top-[0px] inset-0 bg-[#000000d9] z-50`}>
 											</div>
 										}
 									</div>

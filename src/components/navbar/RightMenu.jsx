@@ -5,8 +5,13 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { navbarItems } from './navbarItems';
+import { GoPerson } from "react-icons/go";
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { Link, NavLink } from 'react-router-dom';
 import { Button, Divider } from '@mui/material';
+import { useSelector } from 'react-redux';
+import BuyButton from '../utils/BuyButton';
+
 
 // todo: make different component of accordian
 
@@ -15,17 +20,63 @@ let nonActiveLinkCss = 'p-2 block rounded-md hover:bg-[hsla(0,0%,100%,0.15)] tex
 
 
 const RightMenu = ({ openModal, toggleModal }) => {
+    const { width } = useSelector(state => state.windowSize);
+    const { user, authenticated } = useSelector(state => state.auth);
 
 
     return (
         <>
             {
                 <div onClick={toggleModal}
-                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen bg-[rgba(0,0,0,0.8)] transition-all duration-300 z-50`}>
+                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen bg-[rgba(0,0,0,0.85)] transition-all duration-300 z-50`}>
                 </div>
             }
 
-            <div className={` ${openModal ? 'active' : ''} rightMenu overflow-x-hidden transition-all duration-300 p-4`}>
+            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-x-hidden transition-all duration-300 p-4`}>
+                {
+                    width < 900 &&
+                    <>
+                        <Link onClick={toggleModal} to={"/"} className='fixed w-full top-5 flex items-center justify-center'>
+                            <img
+                                className="h-14"
+                                src="/zee5.svg"
+                                alt="ZEE5 Logo"
+                            />
+                        </Link>
+                        {authenticated
+                            ? <Link to={'/profile'} onClick={toggleModal} className="profileBar bg-[#ffffff0f] flex rounded-md  py-3 px-5 ">
+                                <GoPerson className="text-[#828282] bg-[#ffffff1a] text-xl rounded-full h-10 w-10 mr-3 p-2" />
+                                <div className="username flex items-center justify-between w-full">
+                                    <h4 className=" text-[#828282] font-semibold text-base">{user?.name || 'Guest'}</h4>
+                                    <ArrowForwardIosRoundedIcon sx={{ fontSize: 20, color: '#a785ff' }} />
+                                </div>
+                            </Link>
+                            : <div className='flex gap-6 items-center justify-center'>
+                                <Link to={"/signin"}>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: "transparent",
+                                            fontSize: "12px",
+                                            fontWeight: 600,
+                                            borderRadius: "7px",
+                                            transition: "all 0.3s ease-in",
+                                            "&:hover": {
+                                                backgroundColor: "white",
+                                                color: "black",
+                                            },
+                                        }}
+                                        variant="outlined"
+                                        color="inherit"
+                                    >
+                                        LOGIN
+                                    </Button>
+                                </Link>
+                                <BuyButton />
+                            </div>
+                        }
+                    </>
+                }
+
                 <div className='p-2'>
                     <NavLink to={'/'}
                         onClick={toggleModal}

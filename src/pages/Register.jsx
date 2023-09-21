@@ -1,4 +1,4 @@
-import Sign from "../../components/authCommon";
+import Sign from "../components/authCommon";
 
 
 const Register = () => {

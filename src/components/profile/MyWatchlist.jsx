@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Movies from "../../components/watchlistSections/Movies";
-import Episodes from "../../components/watchlistSections/Episodes";
-import Videos from "../../components/watchlistSections/Videos";
-import Sports from "../../components/watchlistSections/Sports";
+import Movies from "../watchlistSections/Movies";
+import Episodes from "../watchlistSections/Episodes";
+import Videos from "../watchlistSections/Videos";
+import Sports from "../watchlistSections/Sports";
 
 const menuItems = [
     { id: 201, title: 'Episodes' },

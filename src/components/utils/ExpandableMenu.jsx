@@ -3,9 +3,7 @@
 import { Link } from "react-router-dom";
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 
-
 const ExpandableMenu = ({ expandMenu, setExpandMenu, setOpenModal, logout, data }) => {
-
 
     return (
         <div className="menu">

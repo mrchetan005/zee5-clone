@@ -1,5 +1,5 @@
-import HeroSlider from "../../components/heroSlider/HeroSlider";
-import Tray from "../../components/tray";
+import HeroSlider from "../components/heroSlider/HeroSlider";
+import Tray from "../components/tray";
 
 
 const WebSeries = () => {

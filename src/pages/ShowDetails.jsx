@@ -1,14 +1,13 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Tray from "../../components/tray";
+import Tray from "../components/tray";
 import { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { useSelector } from "react-redux";
 import { PiShareFat } from 'react-icons/pi';
-import './details.css';
-import BuyButton from "../../components/utils/BuyButton";
+import BuyButton from "../components/utils/BuyButton";
 import { IconButton } from "@mui/material";
-import api from "../../api";
+import api from "../api";
 
 const ShowDetails = () => {
     const [expandDetails, setExpandDetails] = useState(false);

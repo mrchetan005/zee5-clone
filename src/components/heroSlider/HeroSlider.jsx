@@ -61,13 +61,13 @@ const HeroSlider = ({ type = 'movie', pageNumber = 2 }) => {
     // /src/assets/hero/hero1.webp
 
     return (
-        <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px]  pb-4">
+        <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px] mb-10 pb-4">
             <Slider {...settings}>
                 {
                     data?.map(({ title, _id, thumbnail }, index) => (
                         <div key={_id}>
                             <div className="m-auto flex relative" >
-                                <img onClick={() => handleOnClick(_id)} className="w-full h-full aspect-video cursor-pointer px-2 object-cover object-top max-h-[60vh]  m-auto" src={`/assets/hero/hero${index + 1}.webp`} alt={title} />
+                                <img onClick={() => handleOnClick(_id)} className="w-full aspect-video cursor-pointer lg:px-2 object-cover object-top max-h-[60vh] m-auto" src={`/assets/hero/hero${index + 1}.webp`} alt={title} />
 
                                 <div className="flex flex-col gap-2 absolute bottom-0 left-0 p-4 md:p-8 right-0 black-to-transparent">
                                     <Typography variant="p" sx={{ fontWeight: 'bold', fontFamily: 'Noto Sans, sans-serif' }}>{title}</Typography>

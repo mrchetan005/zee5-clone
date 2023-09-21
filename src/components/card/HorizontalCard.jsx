@@ -30,8 +30,8 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
     }
 
     return (
-        <div key={_id} className={`HorizontalCard ${styles.cards} flex items-start justify-start w-full relative`}>
-            <div className={`cursor-pointer flex-1`} onClick={() => handleClick(_id)}>
+        <div key={_id} onClick={() => handleClick(_id)} className={`HorizontalCard ${styles.cards} flex items-start justify-start w-full relative`}>
+            <div className={`cursor-pointer flex-1`}>
                 <figure className="overflow-hidden rounded-md">
                     <img className="w-full aspect-video object-cover object-top" src={thumbnail} alt={title} />
                 </figure>
@@ -44,7 +44,7 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
             <div className={`${styles.cardPopup} cardPopUp !pl-3 `}>
                 <h4 className={styles.title}>{title}</h4>
                 <div className={`${styles.bottom}`}>
-                    <div className="cursor-pointer" onClick={() => handleClick(_id)}>
+                    <div className="cursor-pointer">
                         <WatchButton size={15} bgColor='#9727A1' color="white" />
                     </div>
                     <div onClick={handleShare} className="hover:text-[#9727A1] flex items-center font-medium text-[#828282] gap-1 cursor-pointer">

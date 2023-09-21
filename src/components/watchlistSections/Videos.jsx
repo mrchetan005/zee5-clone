@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import WatchlistCard from "../watchlistCard";
+import WatchlistCard from "../card/WatchlistCard";
 import NothingToWatch from "../nothingToWatch";
 import axios from "../../api";
 import { Skeleton } from "@mui/material";

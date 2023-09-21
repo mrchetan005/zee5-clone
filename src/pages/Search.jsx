@@ -2,11 +2,11 @@
 
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SearchFilter from '../../components/searchFilter';
-import useApi from '../../hooks/useApiService';
-import HorizontalCard from '../../components/card/HorizontalCard';
+import SearchFilter from '../components/searchFilter';
+import useApi from '../hooks/useApiService';
+import HorizontalCard from '../components/card/HorizontalCard';
 import { useSelector } from 'react-redux';
-import NothingToWatch from '../../components/nothingToWatch';
+import NothingToWatch from '../components/nothingToWatch';
 
 const Search = () => {
     const [params] = useSearchParams();

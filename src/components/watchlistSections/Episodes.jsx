@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import WatchlistCard from "../watchlistCard";
 import NothingToWatch from "../nothingToWatch";
 import axios from "../../api";
 import { Skeleton } from "@mui/material";
 import { addRemoveToWatchlist } from "../../api/watchlist";
 import Popup from "../utils/Popup";
+import WatchlistCard from "../card/WatchlistCard";
 
 const Episodes = () => {
 	const { width } = useSelector((state) => state.windowSize);

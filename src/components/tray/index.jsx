@@ -71,7 +71,6 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
         } else if (cast) {
             queryObj = { cast: cast }
         }
-
         const queryString = JSON.stringify(queryObj);
         get(`/show?filter=${queryString}&page=${pageNumber}&limit=16`);
     }, []);

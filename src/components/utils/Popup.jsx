@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-const Popup = ({ message, isOpen, onClose, hideTime = 2000 }) => {
-    const [isVisible, setIsVisible] = useState(isOpen);
+const Popup = ({ message, isOpen, onClose, hideTime = 2500 }) => {
 
     useEffect(() => {
-        setIsVisible(isOpen);
         if (isOpen) {
             const timer = setTimeout(() => {
                 onClose();
@@ -17,8 +15,8 @@ const Popup = ({ message, isOpen, onClose, hideTime = 2000 }) => {
     if (!message) return <></>;
 
     return (
-        <p className={`${isVisible ? 'bottom-10' : '-bottom-96'} fixed transition-all duration-500 shadow-md border border-black left-1/2 -translate-x-1/2 p-4 bg-[#3b3b3b] z-[60] text-white font-bold text-sm`}>{message}</p>
+        <p className={`${isOpen ? 'translate-y-0' : 'translate-y-40'} bottom-10 text-center fixed transition-all duration-500 shadow-md left-1/2 -translate-x-1/2 p-4 bg-[#3b3b3b] z-[60] text-white font-bold text-sm`}>{message}</p>
     )
 }
 
-export default Popup;
+export default React.memo(Popup);

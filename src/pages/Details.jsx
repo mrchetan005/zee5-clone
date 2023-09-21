@@ -1,21 +1,21 @@
+import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Tray from "../../components/tray";
-import { useEffect, useState } from "react";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import './details.css'
-import MovieCard from "../../components/card";
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { useSelector } from "react-redux";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { PiShareFat } from 'react-icons/pi';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import AuthRequired from "../../components/authCommon/AuthRequired";
-import { addRemoveToWatchlist, getWatchlist } from "../../api/watchlist";
-import Popup from "../../components/utils/Popup";
-import Skeleton from "../../components/utils/Skeleton";
-import useApi from "../../hooks/useApiService";
-import api from "../../api";
+import Tray from "../components/tray";
+import MovieCard from "../components/card";
+import AuthRequired from "../components/authCommon/AuthRequired";
+import { addRemoveToWatchlist, getWatchlist } from "../api/watchlist";
+import Popup from "../components/utils/Popup";
+import Skeleton from "../components/utils/Skeleton";
+import useApi from "../hooks/useApiService";
+import api from "../api";
 
+const getUnique = (array) => array?.filter((name, index, array) => array.indexOf(name) === index);
 
 const Details = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -39,36 +39,23 @@ const Details = () => {
         })();
     }, [id]);
 
-    const { _id, video_url, title, description, director, type } = movieData;
-    let { cast, keywords } = movieData;
-    cast = cast?.filter((name, index, array) => array.indexOf(name) === index);
-    keywords = keywords?.filter((name, index, array) => array.indexOf(name) === index);
-
-    useEffect(() => {
-    }, [cast, keywords]);
-
-    const toggleWatchlistShow = async () => {
-        const data = await addRemoveToWatchlist(_id);
-        setWatchlistData(data);
-        setShowPopup(true);
-        const isAlreadyAdded = watchlistData?.data?.shows.some((movie) => movie._id === _id);
-        setIsAdded(!isAlreadyAdded);
-    }
+    let { video_url, title, description, director, cast, keywords, type } = movieData;
+    const uniqueCast = getUnique(cast);
+    const uniqueKeywords = getUnique(keywords);
 
     async function fetchWatchlist() {
         const list = await getWatchlist();
-        const isPresentInList = list?.some((movie) => movie._id === _id);
+        const isPresentInList = list?.some((movie) => movie._id === movieData?._id);
         setIsAdded(isPresentInList);
-        return isPresentInList;
     }
 
-    useEffect(() => {
-        fetchWatchlist();
-    }, [movieData]);
-
-    const addToWatchList = () => {
+    const addToWatchList = async () => {
         if (authenticated) {
-            toggleWatchlistShow();
+            const data = await addRemoveToWatchlist(movieData?._id);
+            setWatchlistData(data);
+            setShowPopup(true);
+            const isAlreadyAdded = watchlistData?.data?.shows.some((movie) => movie._id === movieData?._id);
+            setIsAdded(!isAlreadyAdded);
         } else {
             setOpenAuthModal(true);
         }
@@ -86,14 +73,16 @@ const Details = () => {
         }
     }
 
+    const onClosePopUp = useCallback(() => setShowPopup(false), []);
+
     return (
         <>
             <div className={` movieDetails ${width >= 1200 ? 'px-[5%]' : ''} bg-[#0f0617]`}>
 
                 <div className={`flex relative top-0 overflow-hidden justify-center h-screen`}>
 
-                    <div className={`leftSection w-full  overflow-y-auto mb-6 `}>
-                        <video autoPlay controls src={video_url} className="w-full aspect-video "></video>
+                    <div className={`leftSection w-full overflow-y-auto mb-6 `}>
+                        <video autoPlay controls src={video_url} className="w-full aspect-video mb-4"></video>
 
                         <div className="pl-4 flex flex-col gap-6">
                             <h3 className="font-bold text-4xl">{title}</h3>
@@ -104,7 +93,7 @@ const Details = () => {
                                 <span className="text-[#ffffff80]">2h 7m</span>
                                 <div className="dot"></div>
                                 {
-                                    keywords?.map((name) => (
+                                    uniqueKeywords?.map((name) => (
                                         <>
                                             <Link key={name + Math.random() * 100}>
                                                 <span className="text-[#a785ff] capitalize">{name}</span>
@@ -145,7 +134,7 @@ const Details = () => {
                                             <p className="castTitle text-sm font-semibold mb-4 text-[#ffffff80]">Cast:</p>
                                             <div className="flex gap-4 mb-6">
                                                 {
-                                                    cast?.map((name) => (
+                                                    uniqueCast?.map((name) => (
                                                         <Link key={name + Math.random() * 100}>
                                                             <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                         </Link>
@@ -169,7 +158,7 @@ const Details = () => {
 
                     {
                         width >= 1200 &&
-                        <div className="rightSection overflow-y-auto px-1">
+                        <div className="rightSection h-screen overflow-y-auto px-1">
                             <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] pb-2">Recommended Movies For You</h2>
                             <div className="rightSectionMovies grid grid-cols-2">
                                 {
@@ -192,12 +181,12 @@ const Details = () => {
 
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
-                    cast?.map((name) => (
+                    uniqueCast?.map((name) => (
                         <Tray key={name + Math.random() * 100} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {
-                    keywords?.map((name) => (
+                    uniqueKeywords?.map((name) => (
                         <Tray key={name + Math.random() * 100} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
@@ -209,7 +198,7 @@ const Details = () => {
                             <strong className="min-w-[100px] max-w-[100px]  pr-4">Genres</strong>
                             <ul className="flex flex-wrap gap-2">
                                 {
-                                    keywords?.map((name) => (
+                                    uniqueKeywords?.map((name) => (
                                         <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
@@ -219,7 +208,7 @@ const Details = () => {
                             <strong className="min-w-[100px] max-w-[100px]  pr-4">Cast</strong>
                             <ul className="flex flex-wrap gap-2">
                                 {
-                                    cast?.map((name) => (
+                                    uniqueCast?.map((name) => (
                                         <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
@@ -234,7 +223,7 @@ const Details = () => {
                     </div>
                 </div>
             </div>
-            <Popup message={watchlistData?.message} isOpen={showPopup} onClose={() => setShowPopup(false)} />
+            <Popup message={watchlistData?.message} isOpen={showPopup} onClose={onClosePopUp} />
         </>
     )
 }

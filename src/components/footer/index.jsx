@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { setIsIntersecting } from '../../slices/intersection';
-import { IconButton, Link } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { AiFillFacebook, AiFillInstagram, AiFillTwitterCircle, AiFillYoutube } from 'react-icons/ai';
 
 const Footer = () => {
