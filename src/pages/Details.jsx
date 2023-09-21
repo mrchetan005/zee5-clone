@@ -85,11 +85,11 @@ const Details = () => {
                         <video autoPlay controls src={video_url} className="w-full aspect-video mb-4"></video>
 
                         <div className="pl-4 flex flex-col gap-6">
-                            <h3 className="font-bold text-4xl">{title}</h3>
+                            <h3 className="font-bold  text-2xl sm:text-3xl">{title}</h3>
                             <Link>
                                 <div className="type capitalize text-xl text-[#a785ff]">{type}</div>
                             </Link>
-                            <div className="flex items-center gap-3 text-lg">
+                            <div className="flex items-center gap-3 text-lg flex-wrap">
                                 <span className="text-[#ffffff80]">2h 7m</span>
                                 <div className="dot"></div>
                                 {
@@ -123,8 +123,8 @@ const Details = () => {
                                 </button>
                             </div>
                             <div className="descriptionWrapper">
-                                <div className={` relative line-clamp-2 text-ellipsis  `}>
-                                    <p className="mr-20">{description} {description}</p>
+                                <div className={` relative ${expandDetails ? '' : 'line-clamp-2 text-ellipsis'}  `}>
+                                    <p className="mr-20">{description} {description} {description} {description} {description} {description}</p>
                                     <div onClick={() => setExpandDetails(!expandDetails)} className={`${expandDetails ? 'rotate-0' : 'rotate-180 '} absolute right-4 top-0 cursor-pointer`}><KeyboardArrowUpIcon sx={{ fontSize: 35 }} /></div>
                                 </div>
                                 {

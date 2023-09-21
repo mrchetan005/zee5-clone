@@ -66,11 +66,11 @@ const ShowDetails = () => {
                         <BuyButton />
                     </div>
                     <div className={`showDetailsOverlay ${width > 1200 ? 'py-10' : ''} pl-8 flex flex-col gap-6 ${width >= 1200 ? 'px-24' : ''}`}>
-                        <h3 className="font-bold text-3xl ">{title}</h3>
+                        <h3 className="font-bold text-2xl sm:text-3xl ">{title}</h3>
                         <Link>
                             <div className="type capitalize text-xl text-[#a785ff]">{type}</div>
                         </Link>
-                        <div className="flex items-center gap-3 text-lg">
+                        <div className="flex items-center gap-3 text-lg flex-wrap">
                             <span className="text-[#ffffff80]">2h 7m</span>
                             <div className="dot"></div>
                             {
@@ -86,8 +86,8 @@ const ShowDetails = () => {
                             <span className="text-[#ffffff80]">U/A 16+</span>
                         </div>
                         <div className="descriptionWrapper">
-                            <div className={`relative line-clamp-2 text-ellipsis  `}>
-                                <p className="mr-20">{description} {description}</p>
+                            <div className={`relative ${expandDetails ? '' : 'line-clamp-2 text-ellipsis'}`}>
+                                <p className="mr-20">{description} {description} {description} {description} {description} {description}</p>
                                 <div onClick={() => setExpandDetails(!expandDetails)} className={`${expandDetails ? 'rotate-0' : 'rotate-180 '} absolute ${width >= 1200 ? 'hidden' : ''}  right-4 top-0 cursor-pointer`}><KeyboardArrowUpIcon sx={{ fontSize: 35 }} /></div>
                             </div>
                             {
