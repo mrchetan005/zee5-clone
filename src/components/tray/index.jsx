@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { ArrowBackIosRounded, ArrowForwardIosRounded } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -63,28 +63,34 @@ const settings = {
 
 const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
     const { data, loading, get } = useApi();
+    const navigate = useNavigate();
+
+    let queryObj = { type: type };
+    if (keywords) {
+        queryObj = { keywords: keywords };
+    } else if (cast) {
+        queryObj = { cast: cast }
+    }
+    const queryString = JSON.stringify(queryObj);
 
     useEffect(() => {
-        let queryObj = { type: type };
-        if (keywords) {
-            queryObj = { keywords: keywords };
-        } else if (cast) {
-            queryObj = { cast: cast }
-        }
-        const queryString = JSON.stringify(queryObj);
         get(`/show?filter=${queryString}&page=${pageNumber}&limit=16`);
     }, []);
+
+    const handleClick = () => {
+        navigate(`/more/${type}/${heading}`);
+    }
 
     return (
         <div className="pl-4 pb-4">
             <div className="min-h-[1rem] my-4 mx-4 flex justify-between items-center">
-                <h2 className="text-white capitalize  font-medium">
-                    <Link to={`/more/`}>{heading}</Link>
+                <h2 onClick={handleClick} className="text-white cursor-pointer capitalize  font-medium lg:text-lg">
+                    {heading}
                 </h2>
-                <Link to={`/more/${heading}`} className="flex gap-1 text-sm items-center justify-center text-[#A280F7] font-medium ">
+                <div onClick={handleClick} to={`/more/${heading}`} className="flex gap-1 text-sm items-center cursor-pointer justify-center text-[#A280F7] font-medium ">
                     <div>More</div>
                     <ArrowForwardIosRounded sx={{ fontSize: '16px' }} />
-                </Link>
+                </div>
             </div>
             <div className="tray mx-3" >
                 <Slider {...settings}>

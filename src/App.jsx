@@ -21,7 +21,7 @@ function App() {
           <Route path='/details/:id' element={<Details />} />
           <Route path='/details/show/:id' element={<ShowDetails />} />
           <Route path='/search' element={<Search />} />
-          <Route path='/more/:category' element={<MovieList />} />
+          <Route path='/more/:type/:category' element={<MovieList />} />
           <Route path='/profile/*' element={<PrivateRoute><Profile /></PrivateRoute>} />
           <Route path='*' element={<NotFound />} />
         </Routes>

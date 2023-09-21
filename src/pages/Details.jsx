@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -21,12 +21,12 @@ const Details = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [watchlistData, setWatchlistData] = useState({});
     const [openAuthModal, setOpenAuthModal] = useState(false);
-    const [expandDetails, setExpandDetails] = useState(false);
     const [movieData, setMovieData] = useState({});
     const [isAdded, setIsAdded] = useState(fetchWatchlist());
     const { width } = useSelector(state => state.windowSize);
     const { authenticated } = useSelector(state => state.auth);
     const { id } = useParams();
+    const navigate = useNavigate();
     const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
     const { data: recommendedData, loading, get: getRecommended } = useApi();
 
@@ -75,6 +75,12 @@ const Details = () => {
 
     const onClosePopUp = useCallback(() => setShowPopup(false), []);
 
+    const handleMoreClick = (name) => {
+        const heading = `${name}'s ${type}`;
+        navigate(`/more/${type}/${heading}`);
+    }
+
+
     return (
         <>
             <div className={` movieDetails ${width >= 1200 ? 'px-[5%]' : ''} bg-[#0f0617]`}>
@@ -95,9 +101,9 @@ const Details = () => {
                                 {
                                     uniqueKeywords?.map((name) => (
                                         <>
-                                            <Link key={name + Math.random() * 100}>
-                                                <span className="text-[#a785ff] capitalize">{name}</span>
-                                            </Link>
+                                            <div key={name + Math.random() * 100}>
+                                                <span onClick={() => handleMoreClick(name)} className="text-[#a785ff] cursor-pointer capitalize">{name}</span>
+                                            </div>
                                             <div className="dot"></div>
                                         </>
                                     ))
@@ -123,34 +129,26 @@ const Details = () => {
                                 </button>
                             </div>
                             <div className="descriptionWrapper">
-                                <div className={` relative ${expandDetails ? '' : 'line-clamp-2 text-ellipsis'}  `}>
+                                <div className={` relative`}>
                                     <p className="mr-20">{description} {description} {description} {description} {description} {description}</p>
-                                    <div onClick={() => setExpandDetails(!expandDetails)} className={`${expandDetails ? 'rotate-0' : 'rotate-180 '} absolute right-4 top-0 cursor-pointer`}><KeyboardArrowUpIcon sx={{ fontSize: 35 }} /></div>
                                 </div>
-                                {
-                                    expandDetails &&
-                                    <>
-                                        <div className="castDiv mt-8">
-                                            <p className="castTitle text-sm font-semibold mb-4 text-[#ffffff80]">Cast:</p>
-                                            <div className="flex gap-4 mb-6">
-                                                {
-                                                    uniqueCast?.map((name) => (
-                                                        <Link key={name + Math.random() * 100}>
-                                                            <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
-                                                        </Link>
-                                                    ))
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="createrDiv">
-                                            <p className="castTitle mb-4 text-sm font-semibold text-[#ffffff80]">Creaters:</p>
-                                            <p className="castName font-medium text-base capitalize mb-4">Director</p>
-                                            <Link>
-                                                <h2 className="text-base font-semibold mb-6 text-[#a785ff]">{director}</h2>
-                                            </Link>
-                                        </div>
-                                    </>
-                                }
+                                <div className="castDiv mt-8">
+                                    <p className="castTitle text-sm font-semibold mb-4 text-[#ffffff80]">Cast:</p>
+                                    <div className="flex gap-4 mb-6">
+                                        {
+                                            uniqueCast?.map((name) => (
+                                                <div key={name + Math.random() * 100}>
+                                                    <h2 onClick={() => handleMoreClick(name)} className="castName cursor-pointer font-medium text-base capitalize text-[#a785ff]">{name}</h2>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                <div className="createrDiv">
+                                    <p className="castTitle mb-4 text-sm font-semibold text-[#ffffff80]">Creaters:</p>
+                                    <p className="castName font-medium text-base capitalize mb-4">Director</p>
+                                    <h2 onClick={() => handleMoreClick(director)} className="text-base font-semibold cursor-pointer mb-6 text-[#a785ff]">{director}</h2>
+                                </div>
                             </div>
 
                         </div>

@@ -13,8 +13,8 @@ const Search = () => {
     const query = params.get('q');
     const [filter, setFilter] = useState({ type: query });
     const [page, setPage] = useState(1);
-    const { moreData, setMoreData, error, loading, get } = useApi();
     const { isIntersecting } = useSelector(state => state.intersection);
+    const { moreData, setMoreData, error, loading, get } = useApi();
 
 
     useEffect(() => {

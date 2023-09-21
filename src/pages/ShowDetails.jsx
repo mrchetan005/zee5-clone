@@ -51,6 +51,11 @@ const ShowDetails = () => {
         navigate(`/details/${id}`);
     }
 
+    const handleMoreClick = (name) => {
+        const heading = `${name}'s ${type}s`;
+        navigate(`/more/${type}/${heading}`);
+    }
+
     return (
         <>
             <div className={`bg-[#0f0617]`}>
@@ -76,9 +81,7 @@ const ShowDetails = () => {
                             {
                                 keywords?.map((item) => (
                                     <div key={item + Math.random() * 100} className="flex items-center gap-4">
-                                        <Link>
-                                            <span className="text-[#a785ff] capitalize">{item}</span>
-                                        </Link>
+                                        <span onClick={() => handleMoreClick(item)} className="text-[#a785ff] cursor-pointer capitalize">{item}</span>
                                         <div className="dot"></div>
                                     </div>
                                 ))
@@ -99,9 +102,9 @@ const ShowDetails = () => {
 
                                             {
                                                 cast?.map((name) => (
-                                                    <Link key={name + Math.random() * 100}>
-                                                        <h2 className="castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
-                                                    </Link>
+                                                    <div onClick={() => handleMoreClick(name)} key={name + Math.random() * 100}>
+                                                        <h2 className="cursor-pointer  castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
+                                                    </div>
                                                 ))
                                             }
                                         </div>
@@ -109,9 +112,7 @@ const ShowDetails = () => {
                                     <div className="createrDiv">
                                         <p className="castTitle mb-4 text-sm font-semibold text-[#ffffff80]">Creaters:</p>
                                         <p className="castName font-medium text-base capitalize mb-4">Director</p>
-                                        <Link>
-                                            <h2 className="text-base font-semibold mb-6 text-[#a785ff]">{director}</h2>
-                                        </Link>
+                                        <h2 onClick={() => handleMoreClick(director)} className=" cursor-pointer text-base font-semibold mb-6 text-[#a785ff]">{director}</h2>
                                     </div>
                                 </>
                             }
