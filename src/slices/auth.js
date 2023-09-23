@@ -34,7 +34,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        isUserLoggedIn: (state) => {
+        isUserLoggedIn(state) {
             const token = localStorage.getItem('auth_token_zee5');
             if (token) {
                 const user = JSON.parse(localStorage.getItem('user_zee5'));
@@ -43,8 +43,9 @@ const authSlice = createSlice({
                 state.authenticated = true;
             }
         },
-        signOutUser: (state) => {
+        signOutUser(state) {
             localStorage.removeItem('auth_token_zee5');
+            localStorage.removeItem('user_zee5');
             state.token = null;
             state.user = {
                 name: '',

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -13,17 +13,19 @@ import Popup from "../components/utils/Popup";
 import Skeleton from "../components/utils/Skeleton";
 import useApi from "../hooks/useApiService";
 import api from "../api";
+import ShareModal from "../components/utils/ShareModal";
 
 const getUnique = (array) => array?.filter((name, index, array) => array.indexOf(name) === index);
 
 const Details = () => {
+    const { authenticated } = useSelector(state => state.auth);
     const [showPopup, setShowPopup] = useState(false);
+    const [openShare, setOpenShare] = useState(false);
     const [watchlistData, setWatchlistData] = useState({});
     const [openAuthModal, setOpenAuthModal] = useState(false);
     const [movieData, setMovieData] = useState({});
-    const [isAdded, setIsAdded] = useState(fetchWatchlist());
+    const [isAdded, setIsAdded] = useState(() => authenticated ? fetchWatchlist() : false);
     const { width } = useSelector(state => state.windowSize);
-    const { authenticated } = useSelector(state => state.auth);
     const { id } = useParams();
     const navigate = useNavigate();
     const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
@@ -61,6 +63,7 @@ const Details = () => {
     }
 
     const handleShare = async () => {
+        if (!navigator.share) return;
         try {
             await navigator.share({
                 title: 'Shared from ZEE5 Cinema App',
@@ -79,6 +82,13 @@ const Details = () => {
         navigate(`/more/${type}/${heading}`);
     }
 
+    const handleOpenShare = () => {
+        setOpenShare(true);
+    }
+
+    const handleCloseShare = () => {
+        setOpenShare(false);
+    }
 
     return (
         <>
@@ -99,21 +109,24 @@ const Details = () => {
                                 <div className="dot"></div>
                                 {
                                     uniqueKeywords?.map((name) => (
-                                        <>
-                                            <div key={name + Math.random() * 100}>
+                                        <React.Fragment key={name}>
+                                            <div>
                                                 <span onClick={() => handleMoreClick(name)} className="text-[#a785ff] cursor-pointer capitalize">{name}</span>
                                             </div>
                                             <div className="dot"></div>
-                                        </>
+                                        </React.Fragment>
                                     ))
                                 }
                                 <span className="text-[#ffffff80]">U/A 16+</span>
                             </div>
-                            <div className="buttons flex flex-wrap w-fit gap-y-4">
-                                <button onClick={handleShare} className="bg-[#ffffff0a]  border-[#ffffff1a] flex flex-col justify-around items-center transition-all duration-500 py-5 px-8">
+                            <div className="buttons relative flex flex-wrap w-fit gap-y-4">
+                                <div onMouseLeave={handleCloseShare} onMouseMove={handleOpenShare} onClick={handleShare} className="bg-[#ffffff0a] relative  border-[#ffffff1a] flex flex-col justify-around items-center transition-all duration-500 cursor-pointer py-5 px-8">
+                                    {
+                                        openShare && <ShareModal />
+                                    }
                                     <PiShareFat className="h-7 w-7" />
                                     <span className="text-sm mt-1 text-[#ffffff80]">Share</span>
-                                </button>
+                                </div>
                                 <button onClick={addToWatchList} className={`${isAdded ? 'text-[#a785ff]' : ''} bg-[#ffffff0a] flex justify-around  border-[#ffffff1a] items-center p-4 px-6 flex-col`}>
                                     {
                                         isAdded
@@ -136,7 +149,7 @@ const Details = () => {
                                     <div className="flex gap-4 mb-6">
                                         {
                                             uniqueCast?.map((name) => (
-                                                <div key={name + Math.random() * 100}>
+                                                <div key={name}>
                                                     <h2 onClick={() => handleMoreClick(name)} className="castName cursor-pointer font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                 </div>
                                             ))
@@ -155,7 +168,7 @@ const Details = () => {
 
                     {
                         width >= 1200 &&
-                        <div className="rightSection h-screen overflow-y-auto px-1">
+                        <div className="rightSection overflow-y-auto px-1">
                             <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] pb-2">Recommended Movies For You</h2>
                             <div className="rightSectionMovies grid grid-cols-2">
                                 {
@@ -178,13 +191,16 @@ const Details = () => {
 
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
+
                     uniqueCast?.map((name) => (
-                        <Tray key={name + Math.random() * 100} cast={name} heading={`${name}`} pageNumber={1} />
+                        <div key={name}>
+                            <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
+                        </div>
                     ))
                 }
                 {
                     uniqueKeywords?.map((name) => (
-                        <Tray key={name + Math.random() * 100} keywords={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
 
@@ -196,7 +212,7 @@ const Details = () => {
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     uniqueKeywords?.map((name) => (
-                                        <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                        <li key={name} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
                             </ul>
@@ -206,7 +222,7 @@ const Details = () => {
                             <ul className="flex flex-wrap gap-2">
                                 {
                                     uniqueCast?.map((name) => (
-                                        <li key={name + Math.random() * 100} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
+                                        <li key={name} className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{name}</li>
                                     ))
                                 }
                             </ul>

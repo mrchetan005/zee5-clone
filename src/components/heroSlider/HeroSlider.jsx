@@ -7,9 +7,11 @@ import { Typography } from "@mui/material";
 import BuyButton from '../utils/BuyButton';
 import WatchButton from "../utils/WatchButton";
 import { ArrowBackIosRounded, ArrowForwardIosRounded } from "@mui/icons-material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApiService";
+import { useSelector } from "react-redux";
+import AuthRequired from "../authCommon/AuthRequired";
 
 function ArrowNext({ onClick }) {
     return (
@@ -51,6 +53,15 @@ const HeroSlider = ({ type = 'movie', pageNumber = 2 }) => {
         navigate(`/details/${id}`);
     }
     const { data, get } = useApi();
+    const [openAuthModal, setOpenAuthModal] = useState(false);
+    const { authenticated } = useSelector(state => state.auth);
+    const handleBuyButton = () => {
+        if (authenticated) {
+            navigate('/profile/subscriptions');
+        } else {
+            setOpenAuthModal(true);
+        }
+    }
 
     useEffect(() => {
         const queryObj = { type: type };
@@ -61,27 +72,33 @@ const HeroSlider = ({ type = 'movie', pageNumber = 2 }) => {
     // /src/assets/hero/hero1.webp
 
     return (
-        <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px] mb-10 pb-4">
-            <Slider {...settings}>
-                {
-                    data?.map(({ title, _id, thumbnail }, index) => (
-                        <div key={_id}>
-                            <div className="m-auto flex relative" >
-                                <img onClick={() => handleOnClick(_id)} className="w-full aspect-video cursor-pointer lg:px-2 object-cover object-top max-h-[60vh] m-auto" src={`/assets/hero/hero${index + 1}.webp`} alt={title} />
+        <>
+            <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px] mb-10 pb-4">
+                <Slider {...settings}>
+                    {
+                        data?.map(({ title, _id, thumbnail }, index) => (
+                            <div key={_id}>
+                                <div className="m-auto flex relative" >
+                                    <img onClick={() => handleOnClick(_id)} className="w-full aspect-video cursor-pointer lg:px-2 object-cover object-top max-h-[60vh] m-auto" src={`/assets/hero/hero${index + 1}.webp`} alt={title} />
 
-                                <div className="flex flex-col gap-2 absolute bottom-0 left-0 p-4 md:p-8 right-0 black-to-transparent">
-                                    <Typography variant="p" sx={{ fontWeight: 'bold', fontFamily: 'Noto Sans, sans-serif' }}>{title}</Typography>
-                                    <div className="flex gap-3">
-                                        <WatchButton onClick={() => handleOnClick(_id)} />
-                                        <BuyButton />
+                                    <div className="flex flex-col gap-2 absolute bottom-0 left-0 p-4 md:p-8 right-0 black-to-transparent">
+                                        <Typography variant="p" sx={{ fontWeight: 'bold', fontFamily: 'Noto Sans, sans-serif' }}>{title}</Typography>
+                                        <div className="flex gap-3">
+                                            <WatchButton onClick={() => handleOnClick(_id)} />
+                                            <BuyButton onClick={handleBuyButton} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
-                }
-            </Slider>
-        </div>
+                        ))
+                    }
+                </Slider>
+            </div>
+            {
+                !authenticated && openAuthModal &&
+                <AuthRequired setOpenAuthModal={setOpenAuthModal} />
+            }
+        </>
     );
 }
 

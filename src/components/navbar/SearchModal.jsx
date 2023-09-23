@@ -102,7 +102,7 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
                         {
                             searchValue
                                 ? <div className="text-left">
-                                    <div className="note mx-4 border p-4 border-[hsla(0,0%,100%,.55)] ">
+                                    <div className="note m-4 border p-4 border-[hsla(0,0%,100%,.55)] ">
                                         <p className="text-base text-[#7aac2a]">This feature is in progress, try with below suggestions</p>
                                     </div>
                                     <ul className="p-4">

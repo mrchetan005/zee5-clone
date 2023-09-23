@@ -5,8 +5,8 @@ import { setWindowSize } from '../../slices/windowSize';
 import { debounce } from './functionsUtil';
 
 const handleResize = () => {
-    const { innerWidth, innerHeight } = window;
-    store.dispatch(setWindowSize({ width: innerWidth, height: innerHeight }));
+    const { innerWidth } = window;
+    store.dispatch(setWindowSize({ width: innerWidth }));
 };
 
 const debounceFunction = debounce(handleResize, 500);

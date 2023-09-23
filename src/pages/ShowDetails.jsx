@@ -8,14 +8,23 @@ import { PiShareFat } from 'react-icons/pi';
 import BuyButton from "../components/utils/BuyButton";
 import { IconButton } from "@mui/material";
 import api from "../api";
+import ShareModal from "../components/utils/ShareModal";
 
 const ShowDetails = () => {
     const [expandDetails, setExpandDetails] = useState(false);
     const [movieData, setMovieData] = useState({});
+    const [openShare, setOpenShare] = useState(false);
     const { width } = useSelector(state => state.windowSize);
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const handleOpenShare = () => {
+        setOpenShare(true);
+    }
+
+    const handleCloseShare = () => {
+        setOpenShare(false);
+    }
     const { _id, title, cast, description, thumbnail, keywords, director, type } = movieData;
 
     useEffect(() => {
@@ -118,10 +127,13 @@ const ShowDetails = () => {
                             }
                         </div>
                         <div className="buttons flex flex-wrap w-fit gap-y-4">
-                            <button onClick={handleShare} className=" flex flex-col justify-around items-center transition-all duration-500 py-5 px-8">
+                            <div onMouseLeave={handleCloseShare} onMouseMove={handleOpenShare} onClick={handleShare} className=" flex flex-col justify-around relative cursor-pointer items-center transition-all duration-500 py-5 px-8">
                                 <PiShareFat className="h-7 w-7" />
                                 <span className="text-sm mt-1 ">Share</span>
-                            </button>
+                                {
+                                    openShare && <ShareModal />
+                                }
+                            </div>
                             <button onClick={() => handleClick(_id)} className=" flex flex-col items-center justify-around cursor-pointer  transition-all duration-500 p-4 px-10">
                                 <PlayCircleIcon sx={{ fontSize: 35 }} />
                                 <span className="text-sm  mt-1">Watch Promo</span>
@@ -133,7 +145,7 @@ const ShowDetails = () => {
                 <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
                 {
                     cast?.map((name) => (
-                        <Tray key={name + Math.random() * 100} cast={name} heading={`${name}`} pageNumber={1} />
+                        <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {

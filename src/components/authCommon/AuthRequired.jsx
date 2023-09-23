@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { CloseOutlined } from "@mui/icons-material";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,9 +8,16 @@ import { Link } from "react-router-dom";
 const AuthRequired = ({ setOpenAuthModal }) => {
     const { width } = useSelector(state => state.windowSize);
 
+    useEffect(() => {
+        document.documentElement.style.overflow = "hidden";
+        return () => {
+            document.documentElement.style.overflow = "auto";
+        }
+    }, []);
+
     return (
-        <div className="z-[100] fixed inset-0 grid place-items-center">
-            <div className={`authRequired shadow-md relative z-[65] text-center flex flex-col gap items-center bg-[#0F0617] justify-evenly h-[350px] ${width < 500 ? 'w-[280px]' : 'w-[500px]'}`}>
+        <div className="z-[100] fixed inset-0 h-screen w-screen grid place-items-center">
+            <div className={`authRequired shadow-md relative z-[999] text-center flex flex-col gap items-center bg-[#0F0617] justify-evenly h-[350px] ${width < 500 ? 'w-[280px]' : 'w-[500px]'}`}>
                 <h1 className="font-bold text-white text-2xl  ">Login Required</h1>
                 <p className="text-xl font-bold text-[#ffffff80]">Please login to continue</p>
                 <Link to={'/signin'}>
@@ -25,7 +33,7 @@ const AuthRequired = ({ setOpenAuthModal }) => {
                 </div>
             </div>
 
-            <div className={`fixed inset-0 bg-[rgba(0,0,0,0.7)] z-50 pointer-events-none`}>
+            <div className={`fixed pointer-events-none inset-0 bg-[rgba(0,0,0,0.7)] z-50`}>
             </div>
         </div>
     )

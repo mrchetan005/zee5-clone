@@ -1,12 +1,12 @@
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AppsIcon from '@mui/icons-material/Apps';
 import { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import { navbarItems } from "./navbarItems";
 import { useSelector } from 'react-redux';
 
-const NavMenuHeader = ({ active, setActive }) => {
+const NavMenuHeader = () => {
     const [showNumber, setShowNumber] = useState(navbarItems.length);
     const { width } = useSelector(state => state.windowSize);
 
@@ -31,12 +31,12 @@ const NavMenuHeader = ({ active, setActive }) => {
                 <ul className="firstHalf flex overflow-hidden overflow-x-auto list-none items-center">
                     {
                         navbarItems.slice(0, showNumber).map(({ id, name, path }) => (
-                            <Link key={id} to={path}>
+                            <NavLink key={id} to={path}>
                                 <li
-                                    onClick={() => { setActive(id) }} className={`${active == id ? 'text-white' : ''} navlink cursor-pointer mx-4 py-4 text-sm  min-w-max transition-all duration-500 font-medium relative hover:text-white`}>{name}
-                                    <div className={`${active === id ? 'opacity-100 scale-100' : ''} absolute left-0 right-0 bottomLine`}></div>
+                                    className={` navlink cursor-pointer mx-4 py-4 text-sm  min-w-max transition-all duration-500 font-medium relative hover:text-white`}>{name}
+                                    <div className={`absolute left-0 right-0 bottomLine`}></div>
                                 </li>
-                            </Link>
+                            </NavLink>
                         ))
                     }
                 </ul>
@@ -54,12 +54,12 @@ const NavMenuHeader = ({ active, setActive }) => {
                         <ul className="secondHalf text-white absolute top-14 overflow-hidden left-1/2  rounded-md shadow-md  bg-[#0f0617] opacity-0">
                             {
                                 navbarItems.slice(showNumber).map(({ id, name, path }) => (
-                                    <li
-                                        onClick={() => { setActive(id) }}
-                                        className={`${active === id ? 'bg-zinc-800' : ''} hover:bg-zinc-800 rounded-md  px-5 py-3 text-sm min-w-max  duration-300 text-left `}
-                                        key={id}>
-                                        <Link to={path}>{name}</Link>
-                                    </li>
+                                    <NavLink to={path} key={id}>
+                                        <li
+                                            className={` hover:bg-zinc-800 rounded-md  px-5 py-3 text-sm min-w-max  duration-300 text-left `}
+                                            key={id}>{name}
+                                        </li>
+                                    </NavLink>
                                 ))
                             }
                         </ul>

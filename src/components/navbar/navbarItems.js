@@ -1,3 +1,4 @@
+
 const navbarItems = [
     { name: 'Home', id: 1, path: '/' },
     { name: 'TV Shows', id: 2, path: '/tvshows' },

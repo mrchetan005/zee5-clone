@@ -3,9 +3,21 @@ import { useNavigate } from "react-router-dom";
 import WatchButton from "../utils/WatchButton";
 import styles from './card.module.css';
 import { PiShareFat } from 'react-icons/pi';
+import { useState } from "react";
+import ShareModal from "../utils/ShareModal";
 
 const MovieCard = ({ _id, thumbnail, title }) => {
+    const [openShare, setOpenShare] = useState(false);
     const navigate = useNavigate();
+    const handleOpenShare = () => {
+        setOpenShare(true);
+    }
+
+    const handleCloseShare = () => {
+        setOpenShare(false);
+    }
+
+
     const handleShare = async () => {
         try {
             await navigator.share({
@@ -49,9 +61,12 @@ const MovieCard = ({ _id, thumbnail, title }) => {
                             <div className="cursor-pointer " onClick={() => handleWatchClick(_id)}>
                                 <WatchButton size={15} bgColor='#9727A1' color="white" />
                             </div>
-                            <div onClick={handleShare} className="hover:text-[#9727A1] flex items-center cursor-pointer font-medium text-[#828282] gap-1">
+                            <div onMouseLeave={handleCloseShare} onMouseMove={handleOpenShare} onClick={handleShare} className="hover:text-[#9727A1] flex items-center relative cursor-pointer font-medium text-[#828282] gap-1">
+                                {
+                                    openShare && <ShareModal size={'small'} />
+                                }
                                 <span>Share</span>
-                                <PiShareFat />
+                                <PiShareFat small />
                             </div>
                         </div>
                     </div>

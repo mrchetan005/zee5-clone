@@ -6,6 +6,7 @@ import { Home, TvShows, Signin, Register, Details, ShowDetails, MovieList, Profi
 import NotFound from './components/notFound';
 import PrivateRoute from './components/HOC/PrivateRoute';
 import Layout from './components/layout';
+import AuthRequired from './components/authCommon/AuthRequired';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/search' element={<Search />} />
           <Route path='/more/:type/:category' element={<MovieList />} />
           <Route path='/profile/*' element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path='/authRequired' element={<AuthRequired />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Layout>

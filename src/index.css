@@ -24,7 +24,7 @@ body {
 	overflow-x: hidden !important;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	min-height: 100vh;
+	/* min-height: 100vh; */
 }
 
 html {
@@ -92,6 +92,21 @@ img {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+/* ! NAVBAR CSS */
+
+.firstHalf .active li {
+	color: #fff;
+}
+
+.firstHalf .active div {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.secondHalf .activeNavLink li {
+	background-color: #4f4f4f;
 }
 
 /* ! DETAILS PAGE CSS */
