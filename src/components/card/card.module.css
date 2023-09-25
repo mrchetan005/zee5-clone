@@ -6,7 +6,7 @@
 	transition: all 0.25s cubic-bezier(0.33, 0.04, 0.63, 0.93);
 	overflow: hidden;
 	border-block: 10px solid transparent;
-	border-radius: 10px;
+	border-radius: 8px;
 	padding-right: 5px;
 }
 

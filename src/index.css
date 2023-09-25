@@ -21,10 +21,8 @@ body {
 	color: #fff;
 	background-color: #0f0617;
 	font-family: "Noto Sans", sans-serif;
-	/* overflow-x: hidden !important; */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	/* min-height: 100vh; */
 }
 
 html {

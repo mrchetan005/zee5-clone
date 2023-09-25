@@ -59,11 +59,11 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
                         <WatchButton size={15} bgColor='#9727A1' color="white" />
                     </div>
                     <div onMouseLeave={handleCloseShare} onMouseMove={handleOpenShare} onClick={handleShare} className="hover:text-[#9727A1] relative flex items-center font-medium text-[#828282] gap-1 cursor-pointer">
+                        <PiShareFat />
                         {
                             openShare && <ShareModal size={'small'} />
                         }
                         <span>Share</span>
-                        <PiShareFat />
                     </div>
                 </div>
             </div>
