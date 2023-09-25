@@ -62,14 +62,14 @@ const settings = {
 
 
 const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
-    const { data, loading, get } = useApi();
+    const { data, loading, error, get } = useApi();
     const navigate = useNavigate();
 
     let queryObj = { type: type };
     if (keywords) {
         queryObj = { keywords: keywords };
     } else if (cast) {
-        queryObj = { cast: cast }
+        queryObj = { cast: cast };
     }
     const queryString = JSON.stringify(queryObj);
 
@@ -79,6 +79,10 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
 
     const handleClick = () => {
         navigate(`/more/${type}/${heading}`);
+    }
+
+    if (error) {
+        return <></>;
     }
 
     return (

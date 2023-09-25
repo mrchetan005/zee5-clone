@@ -28,11 +28,11 @@ const RightMenu = ({ openModal, toggleModal }) => {
         <>
             {
                 <div onClick={toggleModal}
-                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen bg-[rgba(0,0,0,0.85)] transition-all duration-300 z-50`}>
+                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen bg-[rgba(0,0,0,0.85)] transition-all duration-300 z-[500]`}>
                 </div>
             }
 
-            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-x-hidden transition-all duration-300 p-4`}>
+            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-x-hidden transition-all duration-300 p-4 z-[501]`}>
                 {
                     width < 900 &&
                     <>

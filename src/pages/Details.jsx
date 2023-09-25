@@ -94,9 +94,9 @@ const Details = () => {
         <>
             <div className={` movieDetails ${width >= 1200 ? 'px-[5%]' : ''} bg-[#0f0617]`}>
 
-                <div className={`flex relative top-0 overflow-hidden justify-center h-screen`}>
+                <div className={`flex top-0 relative justify-center`}>
 
-                    <div className={`leftSection w-full overflow-y-auto mb-6 `}>
+                    <div className={`leftSection mb-6 flex-[2]`} >
                         <video autoPlay controls src={video_url} className="w-full aspect-video mb-4"></video>
 
                         <div className="pl-4 flex flex-col gap-6">
@@ -168,18 +168,20 @@ const Details = () => {
 
                     {
                         width >= 1200 &&
-                        <div className="rightSection overflow-y-auto px-1">
-                            <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] pb-2">Recommended Movies For You</h2>
-                            <div className="rightSectionMovies grid grid-cols-2">
-                                {
-                                    recommendedData?.map((movie) => (
-                                        <MovieCard key={movie._id} {...movie} />
-                                    ))
-                                }
-                                {
-                                    loading &&
-                                    new Array(20).fill('').map((_, id) => <Skeleton key={id} />)
-                                }
+                        <div className={`rightSection overflow-y-auto px-1 relative flex-1`}>
+                            <div className="absolute top-0 left-0 right-0">
+                                <h2 className="text-2xl font-bold text-[#d8d8d8] ml-[10px] pb-2">Recommended Movies For You</h2>
+                                <div className="rightSectionMovies grid grid-cols-2">
+                                    {
+                                        recommendedData?.map((movie) => (
+                                            <MovieCard key={movie._id} {...movie} />
+                                        ))
+                                    }
+                                    {
+                                        loading &&
+                                        new Array(20).fill('').map((_, id) => <Skeleton key={id} />)
+                                    }
+                                </div>
                             </div>
                         </div>
                     }
@@ -193,9 +195,7 @@ const Details = () => {
                 {
 
                     uniqueCast?.map((name) => (
-                        <div key={name}>
-                            <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
-                        </div>
+                        <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {

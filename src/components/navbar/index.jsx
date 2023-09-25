@@ -27,13 +27,19 @@ const Navbar = () => {
 	const [openRightModal, setOpenRightModal] = useState(false);
 	const [openSearchModal, setOpenSearchModal] = useState(false);
 	const [openProfileModal, setOpenProfileModal] = useState(false);
+	const [openLanguageModal, setOpenLanguageModal] = useState(false);
 	const { width } = useSelector((state) => state.windowSize);
 	const [expandMenu, setExpandMenu] = useState(true);
 	const { user } = useSelector(state => state.auth);
 
+
+	// useEffect(() => {
+	// document.documentElement.style.overflow = openLanguageModal || openProfileModal || openRightModal || openSearchModal ? 'hidden' : 'auto';
+	// }, [openLanguageModal, openProfileModal, openRightModal, openSearchModal]);
+
 	const toggleModal = () => {
 		setOpenRightModal((m) => !m);
-		document.body.style.overflow = !openRightModal ? "hidden" : "auto";
+		document.body.style.overflowY = !openRightModal ? "hidden" : "auto";
 	};
 
 	const dispatch = useDispatch();
@@ -56,12 +62,17 @@ const Navbar = () => {
 		dispatch(signOutUser());
 	}
 
+	const onOpenSearchModal = () => {
+		window.scrollTo(0, 0);
+		setOpenSearchModal(true);
+	}
+
 	return (
 		<header className="appHeader bg-[#0f0617] fixed z-[1000] top-0 w-full">
 			<div className="headerWrap h-16 flex justify-between items-center lg:mx-10 mx-6 mt-2 mb-4 text-right">
 				<Link to={"/"}>
 					<img
-						className="cursor-pointer block float-left mr-8 h-12 z-[100]"
+						className="cursor-pointer block float-left mr-4 h-12 z-[100]"
 						src="/zee5.svg"
 						alt="ZEE5 Logo"
 					/>
@@ -82,14 +93,14 @@ const Navbar = () => {
 									"&:hover": {
 										backgroundColor: "hsla(0,0%,100%,.15)",
 									},
-								}} onClick={() => setOpenSearchModal(true)}>
+								}} onClick={onOpenSearchModal}>
 									<SearchIcon />
 								</IconButton>
 							</Tooltip>
 						)}
 						<Tooltip title="menu">
 							<IconButton
-								className="z-[100]"
+								className="z-[501]"
 								onClick={toggleModal}
 								sx={{
 									"&:hover": {
@@ -167,9 +178,9 @@ const Navbar = () => {
 								</Link>
 							)}
 
-							<div className="languageBtn">
-								<Tooltip title="Change Language">
-									<IconButton
+							<div className="languageBtn relative">
+								<Tooltip title="Change Language" className="z-[51]">
+									<IconButton onClick={() => setOpenLanguageModal(true)}
 										sx={{
 											"&:hover": {
 												backgroundColor: "hsla(0,0%,100%,.15)",
@@ -180,19 +191,34 @@ const Navbar = () => {
 										<TranslateIcon />
 									</IconButton>
 								</Tooltip>
+								{
+									openLanguageModal &&
+									<>
+										<div className="rounded-md z-[62] border-[#828282] min-w-[200px] absolute top-16 overflow-y-auto left-1/2 -translate-x-1/2 bg-[#0F0617] text-left p-2">
+											<h3 className="text-sm font-bold mb-4 text-center">Display Language</h3>
+											<ul className="">
+												<li className="px-2 flex items-center cursor-pointer">
+													<input className="checked:bg-red-500 checked:border-transparent" type="radio" checked id="en" />
+													<label htmlFor="en" className="text-sm pl-4">English</label>
+												</li>
+											</ul>
+										</div>
+
+										<div onClick={() => setOpenLanguageModal(false)}
+											className={` fixed top-0 inset-0 bg-[rgba(0,0,0,0.6)] z-50`}>
+										</div>
+									</>
+								}
 							</div>
 						</>
 					)}
-					{/* {!openSearchModal && ( */}
-
-					{/* )} */}
 					{width <= 1200 && width > 900 && !openSearchModal ? (
 						<Tooltip title="search">
 							<IconButton color="inherit" sx={{
 								"&:hover": {
 									backgroundColor: "hsla(0,0%,100%,.15)",
 								},
-							}} onClick={() => setOpenSearchModal(true)}>
+							}} onClick={onOpenSearchModal}>
 								<SearchIcon />
 							</IconButton>
 						</Tooltip>

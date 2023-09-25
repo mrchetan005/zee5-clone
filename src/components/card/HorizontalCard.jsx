@@ -49,10 +49,10 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
             </div>
             <div className={`flex-1`}>
                 <div className="cursor-pointer" to={`/details/${_id}`} >
-                    <h4 to={`/details/${_id}`} className="lg:text-base text-xs overflow-hidden line-clamp-2 max-h-11 p-4 font-semibold text-white no-underline" >{title}</h4>
+                    <h4 to={`/details/${_id}`} className="lg:text-base text-xs line-clamp-2 max-h-11 p-4 font-semibold text-white no-underline" >{title}</h4>
                 </div>
             </div>
-            <div className={`${styles.cardPopup} cardPopUp !pl-3 `}>
+            <div className={`${styles.cardPopup} cardPopUp !pl-3`}>
                 <h4 className={styles.title}>{title}</h4>
                 <div className={`${styles.bottom}`}>
                     <div className="cursor-pointer">

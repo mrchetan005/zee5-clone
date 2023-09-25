@@ -14,14 +14,14 @@ body {
 }
 
 html {
-	overflow-x: hidden;
+	overflow-x: hidden !important;
 }
 
 body {
 	color: #fff;
 	background-color: #0f0617;
 	font-family: "Noto Sans", sans-serif;
-	overflow-x: hidden !important;
+	/* overflow-x: hidden !important; */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	/* min-height: 100vh; */
@@ -71,7 +71,7 @@ img {
 	border-top: 4px solid #f3f3f3;
 	width: 32px;
 	height: 32px;
-	-webkit-animation: spin 300ms linear infinite; /* Safari */
+	-webkit-animation: spin 500ms linear infinite;
 	animation: spin 500ms linear infinite;
 }
 
@@ -144,7 +144,6 @@ img {
 }
 
 .movieDetails .rightSection .movieCard {
-	padding-inline: 10px;
 	border-block: 10px solid transparent;
 }
 

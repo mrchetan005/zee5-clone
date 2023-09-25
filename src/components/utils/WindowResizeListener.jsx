@@ -9,7 +9,7 @@ const handleResize = () => {
     store.dispatch(setWindowSize({ width: innerWidth }));
 };
 
-const debounceFunction = debounce(handleResize, 500);
+const debounceFunction = debounce(handleResize, 700);
 
 const startListeningToResize = () => {
     window.addEventListener('resize', debounceFunction);

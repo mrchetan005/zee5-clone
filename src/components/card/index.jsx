@@ -9,14 +9,8 @@ import ShareModal from "../utils/ShareModal";
 const MovieCard = ({ _id, thumbnail, title }) => {
     const [openShare, setOpenShare] = useState(false);
     const navigate = useNavigate();
-    const handleOpenShare = () => {
-        setOpenShare(true);
-    }
-
-    const handleCloseShare = () => {
-        setOpenShare(false);
-    }
-
+    const handleOpenShare = () => setOpenShare(true);
+    const handleCloseShare = () => setOpenShare(false);
 
     const handleShare = async () => {
         try {
@@ -66,7 +60,7 @@ const MovieCard = ({ _id, thumbnail, title }) => {
                                     openShare && <ShareModal size={'small'} />
                                 }
                                 <span>Share</span>
-                                <PiShareFat small />
+                                <PiShareFat />
                             </div>
                         </div>
                     </div>

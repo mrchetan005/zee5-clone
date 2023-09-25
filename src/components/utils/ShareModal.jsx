@@ -26,7 +26,7 @@ const ShareModal = ({ size = '' }) => {
     return (
         <div className={`absolute bottom-full ${size === 'small' ? 'left-1/2 -translate-x-1/2' : 'left-0'}  z-50 flex flex-col bg-white  ${size === 'small' ? 'text-sm' : 'text-2xl'} ${size === 'small' ? 'p-2' : 'p-4'} rounded-md shadow-md`}>
             <div className={`flex  ${size === 'small' ? 'gap-2' : 'gap-4'}`}>
-                <a onClick={handleClick} href="whatsapp://send?text=Your message here" target="_blank" rel="noreferrer" className={`text-green-400 hover:text-green-500 ${size === 'small' ? 'text-sm' : 'text-2xl'}`}>
+                <a onClick={handleClick} href={`whatsapp://send?text=Watch this cool content: ${window.location.href}`} target="_blank" rel="noreferrer" className={`text-green-400 hover:text-green-500 ${size === 'small' ? 'text-sm' : 'text-2xl'}`}>
                     <FaWhatsapp />
                 </a>
 

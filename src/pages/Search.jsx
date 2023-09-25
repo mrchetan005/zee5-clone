@@ -11,24 +11,43 @@ import NothingToWatch from '../components/nothingToWatch';
 const Search = () => {
     const [params] = useSearchParams();
     const query = params.get('q');
-    const [filter, setFilter] = useState({ type: query });
+    const [filter, setFilter] = useState({ title: query });
     const [page, setPage] = useState(1);
     const { isIntersecting } = useSelector(state => state.intersection);
     const { moreData, setMoreData, error, loading, get } = useApi();
 
+    const getData = (initialPage, queryFilter) => {
+        const filterString = JSON.stringify(queryFilter || filter);
+        get(`/show?search=${filterString}&page=${initialPage || page}&limit=30`);
+    }
 
     useEffect(() => {
-        const filterString = JSON.stringify(filter);
-        get(`/show?filter=${filterString}&page=${page}&limit=30`);
-    }, [query, page, filter]);
-
-    useEffect(() => {
-        setMoreData([]);
+        console.log('useEffect 1');
         setPage(1);
-    }, [filter, params]);
-
+        setMoreData([]);
+        window.scrollTo(0, 0);
+        setFilter({ title: query });
+        getData(1, { title: query });
+    }, [params]);
 
     useEffect(() => {
+        if ('title' in filter) {
+            return;
+        }
+        setPage(1);
+        setMoreData([]);
+        window.scrollTo(0, 0);
+        console.log('useEffect 2', filter);
+        getData(1);
+    }, [filter]);
+
+    useEffect(() => {
+        if (page === 1) return;
+        getData();
+    }, [page]);
+
+    useEffect(() => {
+        console.log('useEffect 3', page);
         if (isIntersecting && !error) {
             setPage(prevState => prevState + 1);
         }
@@ -58,7 +77,9 @@ const Search = () => {
                 <div className='grid relative z-40 my-4 gap-4 sm:grid-cols-2 md:grid-cols-2  xl:grid-cols-3 grid-cols-1 '>
                     {
                         moreData?.map((item) => (
-                            <HorizontalCard key={item._id} {...item} />
+                            <HorizontalCard
+                                key={item._id}
+                                {...item} />
                         ))
                     }
                     {
@@ -69,7 +90,7 @@ const Search = () => {
                     }
                     {
                         !loading && moreData.length < 1 &&
-                        <div className='flex justify-center w-screen'>
+                        <div className='flex items-center justify-center h-[50vh] w-screen m-auto'>
                             <NothingToWatch message={'Sorry, no results found!'} />
                         </div>
                     }

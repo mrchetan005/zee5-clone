@@ -11,11 +11,12 @@ import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import WarningPopup from "../utils/WarningPopup.jsx";
 import useApi from "../../hooks/useApiService";
+import SuggestionList from "../suggestionList";
 
 
 const localSearchHistory = JSON.parse(window.localStorage.getItem('search_history_zee5')) || { items: [] };
 
-const suggestionList = ['movie', 'tv show', 'web series', 'video song'];
+// const suggestionList = ['movie', 'tv show', 'web series', 'video song'];
 
 const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
     const [searchValue, setSearchValue] = useState("");
@@ -25,6 +26,17 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
     const navigate = useNavigate();
 
     const { data, get } = useApi();
+    const { data: searchData, error, get: getSearchData } = useApi();
+
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            getSearchData(`/show?search={"title":"${searchValue}"}&limit=10`);
+        }, 700);
+        return () => {
+            clearTimeout(timerId);
+
+        }
+    }, [searchValue]);
 
     useEffect(() => {
         get(`/show?page=3&limit=10`);
@@ -102,19 +114,13 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
                         {
                             searchValue
                                 ? <div className="text-left">
-                                    <div className="note m-4 border p-4 border-[hsla(0,0%,100%,.55)] ">
-                                        <p className="text-base text-[#7aac2a]">This feature is in progress, try with below suggestions</p>
-                                    </div>
-                                    <ul className="p-4">
-                                        {
-                                            suggestionList.map((value) => (
-                                                <li onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    updateSearchHistory(value);
-                                                }} key={value} className="hover:bg-gray-800 cursor-pointer rounded-md border-b-[1px] p-4 border-[hsla(0,0%,100%,.15)] text-sm">{value}</li>
-                                            ))
-                                        }
-                                    </ul>
+                                    {
+                                        error
+                                            ? <div className="note m-4 p-4">
+                                                <p className="text-base text-[#ff4848]">Sorry, no results found for <span className="text-white">"{searchValue}"</span></p>
+                                            </div>
+                                            : <SuggestionList searchValue={searchValue} updateSearchHistory={updateSearchHistory} searchData={searchData} />
+                                    }
                                 </div>
                                 : <>
                                     {
