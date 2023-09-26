@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -28,15 +29,15 @@ const RightMenu = ({ openModal, toggleModal }) => {
         <>
             {
                 <div onClick={toggleModal}
-                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen bg-[rgba(0,0,0,0.85)] transition-all duration-300 z-[500]`}>
+                    className={`${openModal ? 'left-0' : ''} fixed top-0 right-0  bottom-0 h-screen ${width < 900 ? 'bg-[#0f0617]' : 'bg-[rgba(0,0,0,0.85)]'}  transition-all duration-300 z-[500]`}>
                 </div>
             }
 
-            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-x-hidden transition-all duration-300 p-4 z-[501]`}>
+            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-y-visible  transition-all duration-300 p-4 z-[501]`}>
                 {
                     width < 900 &&
                     <>
-                        <Link onClick={toggleModal} to={"/"} className='fixed w-full top-5 flex items-center justify-center'>
+                        <Link onClick={toggleModal} to={"/"} className='fixed w-full -top-16 flex items-center justify-center'>
                             <img
                                 className="h-14"
                                 src="/zee5.svg"

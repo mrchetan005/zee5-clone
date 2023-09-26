@@ -76,7 +76,6 @@ input[type="search"]::-webkit-search-cancel-button {
 	width: 0;
 	height: calc(100vh - 100px);
 	overflow-y: overlay;
-	z-index: 50;
 	background-color: #0f0617;
 	transform: translateX(300%);
 }

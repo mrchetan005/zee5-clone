@@ -198,7 +198,7 @@ const Navbar = () => {
 											<h3 className="text-sm font-bold mb-4 text-center">Display Language</h3>
 											<ul className="">
 												<li className="px-2 flex items-center cursor-pointer">
-													<input className="checked:bg-red-500 checked:border-transparent" type="radio" checked id="en" />
+													<input className="checked:bg-red-500 checked:border-transparent" readOnly type="radio" checked id="en" />
 													<label htmlFor="en" className="text-sm pl-4">English</label>
 												</li>
 											</ul>
