@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { ArrowBackIosRounded, ArrowForwardIosRounded } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -78,6 +78,7 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
     }, []);
 
     const handleClick = () => {
+        window.scrollTo(0, 0);
         navigate(`/more/${type}/${heading}`);
     }
 

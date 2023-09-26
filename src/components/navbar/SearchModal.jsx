@@ -16,8 +16,6 @@ import SuggestionList from "../suggestionList";
 
 const localSearchHistory = JSON.parse(window.localStorage.getItem('search_history_zee5')) || { items: [] };
 
-// const suggestionList = ['movie', 'tv show', 'web series', 'video song'];
-
 const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
     const [searchValue, setSearchValue] = useState("");
     const [openWarningModal, setOpenWarningModal] = useState(false);
@@ -26,11 +24,13 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
     const navigate = useNavigate();
 
     const { data, get } = useApi();
-    const { data: searchData, error, get: getSearchData } = useApi();
+    const { data: searchData, error, loading, get: getSearchData } = useApi();
 
     useEffect(() => {
         const timerId = setTimeout(() => {
-            getSearchData(`/show?search={"title":"${searchValue}"}&limit=10`);
+            if (searchValue.trim()) {
+                getSearchData(`/show?search={"title":"${searchValue.trim()}"}&limit=10`);
+            }
         }, 700);
         return () => {
             clearTimeout(timerId);
@@ -100,11 +100,13 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
                         type="search"
                     />
                     <div className="micIcon cursor-pointer">
-                        {searchValue ? (
-                            <CloseIcon onClick={() => setSearchValue("")} />
-                        ) : (
-                            <MicNoneIcon />
-                        )}
+                        {
+                            loading ? <div className="loader !h-6 !w-6"></div>
+                                : searchValue ? (
+                                    <CloseIcon onClick={() => setSearchValue("")} />
+                                ) : (
+                                    <MicNoneIcon />
+                                )}
                     </div>
                 </form>
 
