@@ -1,19 +1,11 @@
 /* eslint-disable react/prop-types */
 import { CloseOutlined } from "@mui/icons-material";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 
 const AuthRequired = ({ setOpenAuthModal }) => {
     const { width } = useSelector(state => state.windowSize);
-
-    useEffect(() => {
-        document.documentElement.style.overflow = "hidden";
-        return () => {
-            document.documentElement.style.overflow = "auto";
-        }
-    }, []);
 
     return (
         <div className="z-[100] fixed inset-0 h-screen w-screen grid place-items-center">

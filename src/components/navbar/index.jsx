@@ -32,14 +32,8 @@ const Navbar = () => {
 	const [expandMenu, setExpandMenu] = useState(true);
 	const { user } = useSelector(state => state.auth);
 
-
-	// useEffect(() => {
-	// document.documentElement.style.overflow = openLanguageModal || openProfileModal || openRightModal || openSearchModal ? 'hidden' : 'auto';
-	// }, [openLanguageModal, openProfileModal, openRightModal, openSearchModal]);
-
 	const toggleModal = () => {
 		setOpenRightModal((m) => !m);
-		document.body.style.overflowY = !openRightModal ? "hidden" : "auto";
 	};
 
 	const dispatch = useDispatch();

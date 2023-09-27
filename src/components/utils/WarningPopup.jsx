@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
-import { useEffect } from "react";
-
 
 const WarningPopup = ({ title, message, onConfirm, setOpenWarningModal }) => {
 
@@ -10,13 +8,6 @@ const WarningPopup = ({ title, message, onConfirm, setOpenWarningModal }) => {
         onConfirm(!!e?.target?.dataset?.value);
         setOpenWarningModal(false);
     }
-
-    useEffect(() => {
-        document.documentElement.style.overflow = "hidden";
-        return () => {
-            document.documentElement.style.overflow = "auto";
-        }
-    }, []);
 
     return (
         <div className="fixed top-0 pt-20 h-screen w-full left-0 z-[100] flex justify-center">

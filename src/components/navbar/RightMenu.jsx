@@ -33,7 +33,7 @@ const RightMenu = ({ openModal, toggleModal }) => {
                 </div>
             }
 
-            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-y-visible  transition-all duration-300 p-4 z-[501]`}>
+            <div className={` ${openModal ? 'active' : ''}  rightMenu overflow-y-auto overscroll-none  transition-all duration-300 p-4 z-[501]`}>
                 {
                     width < 900 &&
                     <>
