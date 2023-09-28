@@ -26,7 +26,20 @@ function useApi() {
         }
     };
 
-    return { data, moreData, setMoreData, loading, error, get };
+    const getSingle = async (queryPath) => {
+        setLoading(true);
+        try {
+            const response = await api.get(queryPath);
+            setData(response?.data?.data);
+        } catch (err) {
+            setError(err);
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { data, moreData, setMoreData, loading, error, get, getSingle };
 }
 
 export default useApi;

@@ -23,7 +23,7 @@ const MovieList = () => {
         if (isIntersecting && !error) {
             setPage((prevState) => prevState + 1);
         }
-    }, [isIntersecting, error])
+    }, [isIntersecting, error]);
 
 
     return (

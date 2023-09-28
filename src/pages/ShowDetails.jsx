@@ -7,16 +7,16 @@ import { useSelector } from "react-redux";
 import { PiShareFat } from 'react-icons/pi';
 import BuyButton from "../components/utils/BuyButton";
 import { IconButton } from "@mui/material";
-import api from "../api";
 import ShareModal from "../components/utils/ShareModal";
+import useApi from "../hooks/useApiService";
 
 const ShowDetails = () => {
     const [expandDetails, setExpandDetails] = useState(false);
-    const [movieData, setMovieData] = useState({});
     const [openShare, setOpenShare] = useState(false);
     const { width } = useSelector(state => state.windowSize);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { data: movieData, getSingle } = useApi();
 
     const handleOpenShare = () => {
         setOpenShare(true);
@@ -25,13 +25,9 @@ const ShowDetails = () => {
     const handleCloseShare = () => {
         setOpenShare(false);
     }
-    const { _id, title, cast, description, thumbnail, keywords, director, type } = movieData;
 
     useEffect(() => {
-        (async () => {
-            const response = await api.get(`/show/${id}`);
-            setMovieData(response?.data?.data);
-        })();
+        getSingle(`/show/${id}`);
     }, [id]);
 
     useEffect(() => {
@@ -61,34 +57,34 @@ const ShowDetails = () => {
     }
 
     const handleMoreClick = (name) => {
-        const heading = `${name}'s ${type}s`;
-        navigate(`/more/${type}/${heading}`);
+        const heading = `${name}'s ${movieData?.type}s`;
+        navigate(`/more/${movieData?.type}/${heading}`);
     }
 
     return (
         <>
             <div className={`bg-[#0f0617]`}>
-                <div style={{ background: `url(${thumbnail})` }} className={`showDetails flex relative flex-col top-0 overflow-hidden justify-center`}>
+                <div style={{ background: `url(${movieData?.thumbnail})` }} className={`showDetails flex relative flex-col top-0 overflow-hidden justify-center`}>
                     <div className={`${width > 1200 ? 'hidden' : ''} backgroundImageOverlay relative`}>
-                        <img src={thumbnail} alt={title} />
+                        <img src={movieData?.thumbnail} alt={movieData?.title} />
                         <div className="absolute inset-0 bg-gradient-to-t  from-black to-transparent "></div>
                     </div>
                     <div className={`${width > 1200 ? 'absolute right-10 bottom-10' : 'relative pt-4'} pl-4 flex gap-4 items-center`}>
-                        <IconButton color="inherit" onClick={() => handleClick(_id)}>
+                        <IconButton color="inherit" onClick={() => handleClick(movieData?._id)}>
                             <PlayCircleIcon sx={{ fontSize: 48 }} />
                         </IconButton>
                         <BuyButton />
                     </div>
                     <div className={`showDetailsOverlay ${width > 1200 ? 'py-10' : ''} pl-8 flex flex-col gap-6 ${width >= 1200 ? 'px-24' : ''}`}>
-                        <h3 className="font-bold text-2xl sm:text-3xl ">{title}</h3>
+                        <h3 className="font-bold text-2xl sm:text-3xl ">{movieData?.title}</h3>
                         <Link>
-                            <div className="type capitalize text-xl text-[#a785ff]">{type}</div>
+                            <div className="type capitalize text-xl text-[#a785ff]">{movieData?.type}</div>
                         </Link>
                         <div className="flex items-center gap-3 text-lg flex-wrap">
                             <span className="text-[#ffffff80]">2h 7m</span>
                             <div className="dot"></div>
                             {
-                                keywords?.map((item) => (
+                                movieData?.keywords?.map((item) => (
                                     <div key={item + Math.random() * 100} className="flex items-center gap-4">
                                         <span onClick={() => handleMoreClick(item)} className="text-[#a785ff] cursor-pointer capitalize">{item}</span>
                                         <div className="dot"></div>
@@ -99,7 +95,7 @@ const ShowDetails = () => {
                         </div>
                         <div className="descriptionWrapper">
                             <div className={`relative ${expandDetails ? '' : 'line-clamp-2 text-ellipsis'}`}>
-                                <p className="mr-20">{description} {description} {description} {description} {description} {description}</p>
+                                <p className="mr-20">{movieData?.description} {movieData?.description} {movieData?.description} {movieData?.description}</p>
                                 <div onClick={() => setExpandDetails(!expandDetails)} className={`${expandDetails ? 'rotate-0' : 'rotate-180 '} absolute ${width >= 1200 ? 'hidden' : ''}  right-4 top-0 cursor-pointer`}><KeyboardArrowUpIcon sx={{ fontSize: 35 }} /></div>
                             </div>
                             {
@@ -110,7 +106,7 @@ const ShowDetails = () => {
                                         <div className="flex gap-4 mb-6">
 
                                             {
-                                                cast?.map((name) => (
+                                                movieData?.cast?.map((name) => (
                                                     <div onClick={() => handleMoreClick(name)} key={name + Math.random() * 100}>
                                                         <h2 className="cursor-pointer  castName font-medium text-base capitalize text-[#a785ff]">{name}</h2>
                                                     </div>
@@ -121,7 +117,7 @@ const ShowDetails = () => {
                                     <div className="createrDiv">
                                         <p className="castTitle mb-4 text-sm font-semibold text-[#ffffff80]">Creaters:</p>
                                         <p className="castName font-medium text-base capitalize mb-4">Director</p>
-                                        <h2 onClick={() => handleMoreClick(director)} className=" cursor-pointer text-base font-semibold mb-6 text-[#a785ff]">{director}</h2>
+                                        <h2 onClick={() => handleMoreClick(movieData?.director)} className=" cursor-pointer text-base font-semibold mb-6 text-[#a785ff]">{movieData?.director}</h2>
                                     </div>
                                 </>
                             }
@@ -134,7 +130,7 @@ const ShowDetails = () => {
                                     openShare && <ShareModal />
                                 }
                             </div>
-                            <button onClick={() => handleClick(_id)} className=" flex flex-col items-center justify-around cursor-pointer  transition-all duration-500 p-4 px-10">
+                            <button onClick={() => handleClick(movieData?._id)} className=" flex flex-col items-center justify-around cursor-pointer  transition-all duration-500 p-4 px-10">
                                 <PlayCircleIcon sx={{ fontSize: 35 }} />
                                 <span className="text-sm  mt-1">Watch Promo</span>
                             </button>
@@ -142,14 +138,14 @@ const ShowDetails = () => {
                     </div>
                 </div>
 
-                <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
+                <Tray heading={`${movieData?.type} You May Like`} type={movieData?.type} pageNumber={12} />
                 {
-                    cast?.map((name) => (
+                    movieData?.cast?.map((name) => (
                         <Tray key={name} cast={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }
                 {
-                    keywords?.map((name) => (
+                    movieData?.keywords?.map((name) => (
                         <Tray key={name + Math.random() * 100} keywords={name} heading={`${name}`} pageNumber={1} />
                     ))
                 }

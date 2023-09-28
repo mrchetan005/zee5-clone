@@ -12,7 +12,6 @@ import { addRemoveToWatchlist, getWatchlist } from "../api/watchlist";
 import Popup from "../components/utils/Popup";
 import Skeleton from "../components/utils/Skeleton";
 import useApi from "../hooks/useApiService";
-import api from "../api";
 import ShareModal from "../components/utils/ShareModal";
 
 const getUnique = (array) => array?.filter((name, index, array) => array.indexOf(name) === index);
@@ -23,26 +22,29 @@ const Details = () => {
     const [openShare, setOpenShare] = useState(false);
     const [watchlistData, setWatchlistData] = useState({});
     const [openAuthModal, setOpenAuthModal] = useState(false);
-    const [movieData, setMovieData] = useState({});
-    const [isAdded, setIsAdded] = useState(() => authenticated ? fetchWatchlist() : false);
+    const [isAdded, setIsAdded] = useState(false);
     const { width } = useSelector(state => state.windowSize);
     const { id } = useParams();
     const navigate = useNavigate();
     const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
     const { data: recommendedData, loading, get: getRecommended } = useApi();
+    const { data: movieData, getSingle } = useApi();
 
     useEffect(() => {
         setIsAdded(false);
         getRecommended(`/show?page=${randomPage}&limit=10`);
-        (async () => {
-            const data = await api.get(`/show/${id}`);
-            setMovieData(data?.data?.data);
-        })();
+        getSingle(`/show/${id}`);
     }, [id]);
 
-    let { video_url, title, description, director, cast, keywords, type } = movieData;
-    const uniqueCast = getUnique(cast);
-    const uniqueKeywords = getUnique(keywords);
+    useEffect(() => {
+        if (authenticated) {
+            setIsAdded(fetchWatchlist());
+
+        }
+    }, [movieData]);
+
+    const uniqueCast = getUnique(movieData?.cast);
+    const uniqueKeywords = getUnique(movieData?.keywords);
 
     async function fetchWatchlist() {
         const list = await getWatchlist();
@@ -55,8 +57,9 @@ const Details = () => {
             const data = await addRemoveToWatchlist(movieData?._id);
             setWatchlistData(data);
             setShowPopup(true);
-            const isAlreadyAdded = watchlistData?.data?.shows.some((movie) => movie._id === movieData?._id);
-            setIsAdded(!isAlreadyAdded);
+            const isAlreadyAdded = data?.data?.shows.some((movie) => movie._id === movieData?._id);
+            console.log('isadded', isAlreadyAdded, data);
+            setIsAdded(isAlreadyAdded);
         } else {
             setOpenAuthModal(true);
         }
@@ -78,8 +81,8 @@ const Details = () => {
     const onClosePopUp = useCallback(() => setShowPopup(false), []);
 
     const handleMoreClick = (name) => {
-        const heading = `${name}'s ${type}`;
-        navigate(`/more/${type}/${heading}`);
+        const heading = `${name}'s ${movieData?.type}`;
+        navigate(`/more/${movieData?.type}/${heading}`);
     }
 
     const handleOpenShare = () => {
@@ -97,12 +100,12 @@ const Details = () => {
                 <div className={`flex top-0 relative justify-center`}>
 
                     <div className={`leftSection mb-6 flex-[2]`} >
-                        <video autoPlay controls src={video_url} className="w-full aspect-video mb-4"></video>
+                        <video autoPlay controls src={movieData?.video_url} className="w-full aspect-video mb-4"></video>
 
                         <div className="pl-4 flex flex-col gap-6">
-                            <h3 className="font-bold  text-2xl sm:text-3xl">{title}</h3>
+                            <h3 className="font-bold  text-2xl sm:text-3xl">{movieData?.title}</h3>
                             <Link>
-                                <div className="type capitalize text-xl text-[#a785ff]">{type}</div>
+                                <div className="type capitalize text-xl text-[#a785ff]">{movieData?.type}</div>
                             </Link>
                             <div className="flex items-center gap-3 text-lg flex-wrap">
                                 <span className="text-[#ffffff80]">2h 7m</span>
@@ -142,7 +145,7 @@ const Details = () => {
                             </div>
                             <div className="descriptionWrapper">
                                 <div className={` relative`}>
-                                    <p className="mr-20">{description} {description} {description} {description} {description} {description}</p>
+                                    <p className="mr-20">{movieData?.description} {movieData?.description} {movieData?.description} {movieData?.description}</p>
                                 </div>
                                 <div className="castDiv mt-8">
                                     <p className="castTitle text-sm font-semibold mb-4 text-[#ffffff80]">Cast:</p>
@@ -159,7 +162,7 @@ const Details = () => {
                                 <div className="createrDiv">
                                     <p className="castTitle mb-4 text-sm font-semibold text-[#ffffff80]">Creaters:</p>
                                     <p className="castName font-medium text-base capitalize mb-4">Director</p>
-                                    <h2 onClick={() => handleMoreClick(director)} className="text-base font-semibold cursor-pointer mb-6 text-[#a785ff]">{director}</h2>
+                                    <h2 onClick={() => handleMoreClick(movieData?.director)} className="text-base font-semibold cursor-pointer mb-6 text-[#a785ff]">{movieData?.director}</h2>
                                 </div>
                             </div>
 
@@ -191,7 +194,7 @@ const Details = () => {
                     }
                 </div>
 
-                <Tray heading={`${type} You May Like`} type={type} pageNumber={12} />
+                <Tray heading={`${movieData?.type} You May Like`} type={movieData?.type} pageNumber={12} />
                 {
 
                     uniqueCast?.map((name) => (
@@ -205,7 +208,7 @@ const Details = () => {
                 }
 
                 <div>
-                    <h2 className="text-lg font-bold capitalize mb-4">Details about {title} {type}:</h2>
+                    <h2 className="text-lg font-bold capitalize mb-4">Details about {movieData?.title} {movieData?.type}:</h2>
                     <div className="border-2 rounded-lg border-[#2c2531] py-2 px-4">
                         <div className="genre py-4 flex ">
                             <strong className="min-w-[100px] max-w-[100px]  pr-4">Genres</strong>
@@ -230,7 +233,7 @@ const Details = () => {
                         <div className="genre py-2 flex ">
                             <strong className="min-w-[100px] max-w-[100px] pr-4">Director</strong>
                             <ul className="flex flex-wrap gap-2">
-                                <li className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{director}</li>
+                                <li className="text-sm font-medium capitalize w-max rounded-full bg-[#ffffff14] py-[6px] px-3">{movieData?.director}</li>
                             </ul>
                         </div>
                     </div>
