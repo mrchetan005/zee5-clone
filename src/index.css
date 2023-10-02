@@ -13,19 +13,17 @@ body {
 	box-sizing: border-box;
 }
 
-html {
-	overflow-x: hidden !important;
-}
-
 body {
 	color: #fff;
 	background-color: #0f0617;
 	font-family: "Noto Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
 }
 
 html {
+	overflow-x: hidden !important;
 	scroll-behavior: smooth;
 }
 
@@ -90,21 +88,6 @@ img {
 	100% {
 		transform: rotate(360deg);
 	}
-}
-
-/* ! NAVBAR CSS */
-
-.firstHalf .active li {
-	color: #fff;
-}
-
-.firstHalf .active div {
-	opacity: 1;
-	transform: scale(1);
-}
-
-.secondHalf .activeNavLink li {
-	background-color: #4f4f4f;
 }
 
 /* ! DETAILS PAGE CSS */

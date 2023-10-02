@@ -101,7 +101,7 @@ const Tray = ({ heading, pageNumber = 1, type = 'movie', keywords, cast }) => {
                 <Slider {...settings}>
                     {
                         data?.map((movie) => (
-                            <MovieCard scale={1.1} key={movie._id} {...movie} />
+                            <MovieCard key={movie._id} {...movie} />
                         ))
                     }
                     {
