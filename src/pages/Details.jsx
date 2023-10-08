@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { PiShareFat } from 'react-icons/pi';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
@@ -8,58 +8,51 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import Tray from "../components/tray";
 import MovieCard from "../components/card";
 import AuthRequired from "../components/authCommon/AuthRequired";
-import { addRemoveToWatchlist, getWatchlist } from "../api/watchlist";
 import Popup from "../components/utils/Popup";
 import Skeleton from "../components/utils/Skeleton";
 import useApi from "../hooks/useApiService";
 import ShareModal from "../components/utils/ShareModal";
+import { addRemoveFromWatchlist, getWatchlistShows, checkIsAddedToWatchlist } from "../store/slices/watchlist";
 
 const getUnique = (array) => array?.filter((name, index, array) => array.indexOf(name) === index);
 
 const Details = () => {
+    const location = useLocation();
     const { authenticated } = useSelector(state => state.auth);
     const [showPopup, setShowPopup] = useState(false);
     const [openShare, setOpenShare] = useState(false);
-    const [watchlistData, setWatchlistData] = useState({});
     const [openAuthModal, setOpenAuthModal] = useState(false);
-    const [isAdded, setIsAdded] = useState(false);
     const { width } = useSelector(state => state.windowSize);
     const { id } = useParams();
     const navigate = useNavigate();
     const randomPage = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
     const { data: recommendedData, loading, get: getRecommended } = useApi();
     const { data: movieData, getSingle } = useApi();
+    const { shows, isAddedToWatchlist, fetchedShowsAlready, message } = useSelector(state => state.watchlist);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setIsAdded(false);
+        if (authenticated) {
+            dispatch(checkIsAddedToWatchlist(id));
+            if (!fetchedShowsAlready) {
+                dispatch(getWatchlistShows());
+            }
+        }
+    }, [authenticated, shows, location]);
+
+    useEffect(() => {
         getRecommended(`/show?page=${randomPage}&limit=10`);
         getSingle(`/show/${id}`);
     }, [id]);
 
-    useEffect(() => {
-        if (authenticated) {
-            setIsAdded(fetchWatchlist());
-
-        }
-    }, [movieData]);
-
     const uniqueCast = getUnique(movieData?.cast);
     const uniqueKeywords = getUnique(movieData?.keywords);
 
-    async function fetchWatchlist() {
-        const list = await getWatchlist();
-        const isPresentInList = list?.some((movie) => movie._id === movieData?._id);
-        setIsAdded(isPresentInList);
-    }
-
     const addToWatchList = async () => {
         if (authenticated) {
-            const data = await addRemoveToWatchlist(movieData?._id);
-            setWatchlistData(data);
             setShowPopup(true);
-            const isAlreadyAdded = data?.data?.shows.some((movie) => movie._id === movieData?._id);
-            console.log('isadded', isAlreadyAdded, data);
-            setIsAdded(isAlreadyAdded);
+            dispatch(addRemoveFromWatchlist(id));
         } else {
             setOpenAuthModal(true);
         }
@@ -130,9 +123,9 @@ const Details = () => {
                                     <PiShareFat className="h-7 w-7" />
                                     <span className="text-sm mt-1 text-[#ffffff80]">Share</span>
                                 </div>
-                                <button onClick={addToWatchList} className={`${isAdded ? 'text-[#a785ff]' : ''} bg-[#ffffff0a] flex justify-around  border-[#ffffff1a] items-center p-4 px-6 flex-col`}>
+                                <button onClick={addToWatchList} className={`${isAddedToWatchlist ? 'text-[#a785ff]' : ''} bg-[#ffffff0a] flex justify-around  border-[#ffffff1a] items-center p-4 px-6 flex-col`}>
                                     {
-                                        isAdded
+                                        isAddedToWatchlist
                                             ? <PlaylistAddCheckIcon sx={{ fontSize: 35 }} />
                                             : <PlaylistAddOutlinedIcon sx={{ fontSize: 35 }} />
                                     }
@@ -239,7 +232,7 @@ const Details = () => {
                     </div>
                 </div>
             </div>
-            <Popup message={watchlistData?.message} isOpen={showPopup} onClose={onClosePopUp} />
+            <Popup message={message} isOpen={showPopup} onClose={onClosePopUp} />
         </>
     )
 }

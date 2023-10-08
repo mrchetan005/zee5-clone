@@ -8,16 +8,18 @@ import { Button, Checkbox, Divider, IconButton, TextField, Typography, } from "@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpUser } from "../../slices/user";
-import { isUserLoggedIn, loginUser } from "../../slices/auth";
+import { signUpUser } from "../../store/slices/user";
+import { isUserLoggedIn, loginUser } from "../../store/slices/auth";
 
 const Sign = ({ details }) => {
     const { title, subtitle, type } = details;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading: authLoading, authenticated } = useSelector(state => state.auth);
-    const { loading: userLoading } = useSelector(state => state.user);
+    const { loading: authLoading, authenticated, error } = useSelector(state => state.auth);
+
+    const { loading: userLoading, error: userError } = useSelector(state => state.user);
+
     const { status } = useSelector(state => state.user);
 
     const [formData, setFormData] = useState({
@@ -59,6 +61,7 @@ const Sign = ({ details }) => {
             ...prev,
             [name]: value
         }));
+        handleOnBlur(e)
     }
 
 
@@ -88,7 +91,6 @@ const Sign = ({ details }) => {
             return navigate('/');
         }
     }, [authenticated, type, status, navigate, dispatch]);
-
 
     return (
         <div className={`bg-black fixed inset-0 z-[1000] flex justify-center items-center h-screen`}>
@@ -200,10 +202,10 @@ const Sign = ({ details }) => {
                                     inputProps={{ "aria-label": "controlled" }}
                                 />
                                 <label htmlFor="checkbox" className="text-[#4f4f4f] text-sm">By proceeding you agree to our
-                                    <Link className="ml-2 text-[#a785ff]" to="/signup">
+                                    <Link className="ml-2 text-[#a785ff]" >
                                         Terms of Services
                                     </Link> &
-                                    <Link className="ml-2 text-[#a785ff]" to="/signup">
+                                    <Link className="ml-2 text-[#a785ff]">
                                         Privacy Policy
                                     </Link>.
                                 </label>
@@ -239,7 +241,11 @@ const Sign = ({ details }) => {
                         <Link className="ml-2 text-[#a785ff]" to={`/${type == 'signin' ? 'register' : 'signin'}`}>{type == 'signin' ? 'Register' : 'Login'}</Link>
                     </Typography>
                 </form>
-
+                <p className="text-red-600 text-sm pt-4">
+                    {
+                        type === 'register' ? userError : error
+                    }
+                </p>
                 {
                     type === 'signin' &&
                     <div className="note mx-4 border p-4 border-[hsla(0,0%,100%,.55)] ">
@@ -247,6 +253,8 @@ const Sign = ({ details }) => {
                         <p className="text-base text-[#7aac2a]">Password - 123456</p>
                     </div>
                 }
+
+
             </div>
         </div>
     );

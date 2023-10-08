@@ -10,7 +10,7 @@ const Home = () => {
             <div className="trending mb-16 ">
                 <Tray heading='Trending Near You' pageNumber={1} type={'movie'} />
 
-                <Tray heading='Top 10 Movies in India' pageNumber={2} type={'movie'} />
+                <Tray heading='Top 10 Movies in India' pageNumber={3} type={'movie'} />
 
                 <Tray heading='Top 10 ZEE5 Original Shows' pageNumber={3} type={'tv show'} />
 

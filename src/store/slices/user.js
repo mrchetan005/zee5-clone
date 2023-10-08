@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../api";
+import axios from "../../api";
 
 export const signUpUser = createAsyncThunk("user/signUpUser", async (userData) => {
     try {
@@ -8,7 +8,7 @@ export const signUpUser = createAsyncThunk("user/signUpUser", async (userData) =
         });
         return response.data;
     } catch (error) {
-        console.log(error);
+        return Promise.reject(error.response.data);
     }
 });
 
@@ -16,11 +16,7 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         status: null,
-        message: '',
         loading: false
-    },
-    reducers: {
-
     },
     extraReducers: (builder) => {
         builder
@@ -30,12 +26,10 @@ const userSlice = createSlice({
             .addCase(signUpUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.status = action?.payload?.status;
-                state.message = action?.payload?.status;
             })
-            .addCase(signUpUser.rejected, (state, action) => {
+            .addCase(signUpUser.rejected, (state, { error }) => {
                 state.loading = false;
-                state.error = action?.payload?.error;
-                state.message = action?.payload?.message;
+                state.error = error.message;
             })
     },
 });

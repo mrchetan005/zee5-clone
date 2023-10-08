@@ -25,18 +25,10 @@ const MovieCard = ({ _id, thumbnail, title }) => {
     }
 
     const handleClick = (id) => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
         navigate(`/details/show/${id}`);
     }
 
     const handleWatchClick = (id) => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
         navigate(`/details/${id}`);
     }
 

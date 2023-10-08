@@ -33,10 +33,6 @@ const HorizontalCard = ({ _id, title, thumbnail }) => {
     }
 
     const handleClick = (id) => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
         navigate(`/details/${id}`);
     }
 

@@ -22,10 +22,8 @@ const Search = () => {
     }
 
     useEffect(() => {
-        console.log('useEffect 1');
         setPage(1);
         setMoreData([]);
-        window.scrollTo(0, 0);
         setFilter({ title: query });
         getData(1, { title: query });
     }, [params]);
@@ -36,8 +34,6 @@ const Search = () => {
         }
         setPage(1);
         setMoreData([]);
-        window.scrollTo(0, 0);
-        console.log('useEffect 2', filter);
         getData(1);
     }, [filter]);
 
@@ -47,7 +43,6 @@ const Search = () => {
     }, [page]);
 
     useEffect(() => {
-        console.log('useEffect 3', page);
         if (isIntersecting && !error) {
             setPage(prevState => prevState + 1);
         }

@@ -1,20 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../api";
+import axios from "../../api";
 
 export const loginUser = createAsyncThunk("auth/loginUser", async (userData) => {
-    const response = await axios.post('https://academics.newtonschool.co/api/v1/user/login', {
-        ...userData
-    });
-    return response.data;
+    try {
+        const response = await axios.post('https://academics.newtonschool.co/api/v1/user/login', {
+            ...userData
+        });
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error.response.data);
+    }
 });
 
 export const updateInfo = createAsyncThunk("auth/updateInfo", async (userData) => {
-    const response = await axios.post('https://academics.newtonschool.co/api/v1/user/login', {
-        ...userData
-    });
-    return response.data;
+    try {
+        const response = await axios.post('https://academics.newtonschool.co/api/v1/user/login', {
+            ...userData
+        });
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error.response.data);
+    }
 });
-
 
 
 const initialState = {
@@ -27,7 +34,6 @@ const initialState = {
     authenticated: false,
     loading: false,
     error: null,
-    message: ''
 }
 
 const authSlice = createSlice({
@@ -43,19 +49,10 @@ const authSlice = createSlice({
                 state.authenticated = true;
             }
         },
-        signOutUser(state) {
+        signOutUser() {
             localStorage.removeItem('auth_token_zee5');
             localStorage.removeItem('user_zee5');
-            state.token = null;
-            state.user = {
-                name: '',
-                email: '',
-                profileImage: null,
-            };
-            state.authenticated = false;
-            state.loading = false;
-            state.message = '';
-            state.error = null;
+            return initialState;
         }
     },
     extraReducers: (builder) => {
@@ -64,8 +61,8 @@ const authSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(loginUser.fulfilled, (state, action) => {
-                const { token, data } = action.payload;
+            .addCase(loginUser.fulfilled, (state, { payload }) => {
+                const { token, data } = payload;
                 state.token = token;
                 state.user = { ...data };
                 state.authenticated = true;
@@ -73,17 +70,16 @@ const authSlice = createSlice({
                 window.localStorage.setItem('auth_token_zee5', token);
                 window.localStorage.setItem('user_zee5', JSON.stringify(data));
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(loginUser.rejected, (state, { error }) => {
                 state.loading = false;
-                state.error = action?.payload?.error;
-                state.message = action?.payload?.message;
+                state.error = error.message;
             })
             .addCase(updateInfo.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateInfo.fulfilled, (state, action) => {
-                const { token, data } = action.payload;
+            .addCase(updateInfo.fulfilled, (state, { payload }) => {
+                const { token, data } = payload;
                 state.loading = false;
                 state.user = { ...data };
                 state.authenticated = true;
@@ -91,11 +87,10 @@ const authSlice = createSlice({
                 window.localStorage.setItem('auth_token_zee5', token);
                 window.localStorage.setItem('user_zee5', JSON.stringify(data));
             })
-            .addCase(updateInfo.rejected, (state, action) => {
+            .addCase(updateInfo.rejected, (state, { error }) => {
                 state.loading = false;
-                state.error = action?.payload?.error;
-                state.message = action?.payload?.message;
-            });
+                state.error = error.message;
+            })
     },
 });
 

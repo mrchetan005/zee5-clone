@@ -1,6 +1,6 @@
 
 import store from '../../store';
-import { setWindowSize } from '../../slices/windowSize';
+import { setWindowSize } from '../../store/slices/windowSize';
 
 import { debounce } from './functionsUtil';
 

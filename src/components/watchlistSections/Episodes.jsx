@@ -1,47 +1,35 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NothingToWatch from "../nothingToWatch";
-import axios from "../../api";
-import { Skeleton } from "@mui/material";
-import { addRemoveToWatchlist } from "../../api/watchlist";
 import Popup from "../utils/Popup";
 import WatchlistCard from "../card/WatchlistCard";
+import { addRemoveFromWatchlist, getWatchlistShows } from "../../store/slices/watchlist";
 
 const Episodes = () => {
+	const dispatch = useDispatch();
+	const { shows, fetchedShowsAlready, message, loading, error } = useSelector(state => state.watchlist);
 	const { width } = useSelector((state) => state.windowSize);
-	const [error, setError] = useState(false);
-	const [loading, setLoading] = useState(false);
 	const [movies, setMovies] = useState([]);
 
 	const [showPopup, setShowPopup] = useState(false);
-	const [watchlistData, setWatchlistData] = useState({});
 
 	const removeFromWatchlist = async (id) => {
-		const data = await addRemoveToWatchlist(id);
-		setWatchlistData(data);
-		fetchData();
-	};
-
-	const fetchData = async () => {
-		try {
-			setLoading(true);
-			const response = await axios.get("/watchlist/like");
-			const shows = response.data.data.shows.filter(
-				(s) => s.type === "tv show" || s.type === "web series"
-			);
-			setMovies(shows);
-			setError(false);
-		} catch (error) {
-			console.log(error);
-			setError(true);
-		} finally {
-			setLoading(false);
-		}
+		dispatch(addRemoveFromWatchlist(id));
 	};
 
 	useEffect(() => {
-		fetchData();
-	}, []);
+		if (!fetchedShowsAlready) {
+			dispatch(getWatchlistShows());
+		}
+		filterShows();
+	}, [shows]);
+
+	const filterShows = () => {
+		const filterShows = shows.filter(
+			(show) => show.type === "tv show" || show.type === "web series"
+		);
+		setMovies(filterShows);
+	};
 
 	if (error || (movies?.length < 1 && !loading)) {
 		return (
@@ -53,8 +41,7 @@ const Episodes = () => {
 
 	return (
 		<div
-			className={`watchlistContent mt-4 pr-6 grid ${width > 900 ? "grid-cols-2 " : "grid-cols-1"
-				}`}
+			className={`watchlistContent mt-4 pr-6 grid ${width > 900 ? "grid-cols-2 " : "grid-cols-1"}`}
 		>
 			{movies.map((movie) => (
 				<WatchlistCard
@@ -63,9 +50,8 @@ const Episodes = () => {
 					removeFromWatchlist={removeFromWatchlist}
 				/>
 			))}
-			{loading && <Skeleton />}
 			<Popup
-				message={watchlistData?.message}
+				message={message}
 				isOpen={showPopup}
 				onClose={() => setShowPopup(false)}
 			/>

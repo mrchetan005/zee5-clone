@@ -12,7 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import { GoPerson } from "react-icons/go";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { isUserLoggedIn, signOutUser } from "../../slices/auth";
+import { isUserLoggedIn, signOutUser } from "../../store/slices/auth";
 import ExpandableMenu from "../utils/ExpandableMenu";
 import "./nav.css";
 
@@ -57,7 +57,6 @@ const Navbar = () => {
 	}
 
 	const onOpenSearchModal = () => {
-		window.scrollTo(0, 0);
 		setOpenSearchModal(true);
 	}
 

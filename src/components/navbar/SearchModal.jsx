@@ -163,7 +163,12 @@ const SearchModal = ({ openSearchModal, setOpenSearchModal }) => {
                                             <div className="topSearchMovieList grid grid-cols-3 py-4 gap-y-4">
                                                 {
                                                     data?.map((movie) => (
-                                                        <MovieCard key={movie?._id} {...movie} />
+                                                        <div key={movie?._id} onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setOpenSearchModal(false);
+                                                        }}>
+                                                            <MovieCard {...movie} />
+                                                        </div>
                                                     ))
                                                 }
                                             </div>

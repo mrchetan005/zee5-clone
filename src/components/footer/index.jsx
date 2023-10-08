@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
-import { setIsIntersecting } from '../../slices/intersection';
+import { setIsIntersecting } from '../../store/slices/intersection';
 import { IconButton } from '@mui/material';
 import { AiFillFacebook, AiFillInstagram, AiFillTwitterCircle, AiFillYoutube } from 'react-icons/ai';
 
@@ -23,7 +23,7 @@ const Footer = () => {
     }, [dispatch])
 
     return (
-        <footer ref={footerRef} className='h-[500px] w-full py-[1%] px-[5%]'>
+        <footer ref={footerRef} className='w-full py-[1%] px-[5%]'>
             <div className='flex mt-8 justify-between lg:flex-row flex-col gap-8 items-center w-full'>
                 <div className="storeIcons flex gap-4 items-center">
                     <h3 className="footerTitle hidden lg:block  text-[#d8d8d8] font-bold text-sm">Download Apps</h3>
@@ -162,7 +162,7 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
-            <div className='copyRightTxt text-xs text-[#ffffff80] py-16 '>
+            <div className='copyRightTxt text-xs text-[#ffffff80] py-10 '>
                 <p>Best viewed on Google Chrome 80+, Microsoft Edge 81+, Mozilla Firefox 75+, Safari 5.1.5+</p>
                 <p>Copyright © 2023 Zee Entertainment Enterprises Ltd. All rights reserved.</p>
             </div>

@@ -73,7 +73,7 @@ const HeroSlider = ({ type = 'movie', pageNumber = 2 }) => {
 
     return (
         <>
-            <div className="heroContainer lg:overflow-visible m-auto max-w-[1300px] mb-10 pb-4">
+            <div className="heroContainer lg:overflow-visible m-auto max-w-[1200px] mb-10 pb-4">
                 <Slider {...settings}>
                     {
                         data?.map(({ title, _id, thumbnail }, index) => (
