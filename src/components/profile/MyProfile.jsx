@@ -1,19 +1,23 @@
 
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ArrowBackIosRounded } from "@mui/icons-material";
 import { IconButton } from '@mui/material';
 // import './profile.css';
 import Popup from "../utils/Popup";
+import { updateInfo } from "../../store/slices/auth";
+import Skeleton from "../utils/Skeleton";
 
 const MyProfile = () => {
-    const { user } = useSelector(state => state.auth);
+    const { user, loading, error } = useSelector(state => state.auth);
     const [updateProfile, setUpdateProfile] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const { width } = useSelector(state => state.windowSize);
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
-        email: user?.email, name: user?.name
+        name: user?.name
     });
 
     const handleOnChange = (e) => {
@@ -26,9 +30,11 @@ const MyProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setFormData({
-            email: user?.email, name: user?.name
-        });
+        dispatch(updateInfo(formData));
+        setUpdateProfile(false);
+    }
+
+    if (error) {
         setShowPopup(true);
     }
 
@@ -54,13 +60,14 @@ const MyProfile = () => {
                                     name="name"
                                     label="Your Full Name"
                                     variant="outlined"
+                                    autoComplete="off"
                                     value={formData?.name}
                                 />
                                 <TextField
                                     disabled
                                     name="email"
                                     label="Email"
-                                    value={formData?.email}
+                                    value={user?.email}
                                 />
                                 <TextField
                                     onChange={handleOnChange}
@@ -81,20 +88,22 @@ const MyProfile = () => {
 
                             </form>
                         </div>
-                        : <div className="userDetails pt-8 flex ">
-                            <div className="userImage h-20 w-20 rounded-full overflow-hidden">
-                                {
-                                    user.profileImage
-                                        ? <img className="w-full h-full object-cover border-2 rounded-full border-[#8230c3]" src="src/assets/hero/hero3.webp" alt="profile" />
-                                        : <div className="h-20 w-20 text-3xl flex items-center justify-center font-bold uppercase bg-[#8230c3]">{user?.name?.[0]}</div>
-                                }
-                            </div>
-                            <div className="userInfo mt-1 ml-4">
-                                <h3 className="userName capitalize text-lg font-bold">{user?.name}</h3>
-                                <p className="text-sm text-[#bdbdbd] ">{user?.email}</p>
-                                <button onClick={() => setUpdateProfile(true)} className="editProfile text-sm text-[#a785ff]">Edit Profile</button>
-                            </div>
-                        </div>
+                        : loading
+                            ? <div className="max-h-32 overflow-hidden"><Skeleton /></div>
+                            : (<div className="userDetails pt-8 flex">
+                                <div className="userImage h-20 w-20 rounded-full overflow-hidden">
+                                    {
+                                        user.profileImage
+                                            ? <img className="w-full h-full object-cover border-2 rounded-full border-[#8230c3]" src="src/assets/hero/hero3.webp" alt="profile" />
+                                            : <div className="h-20 w-20 text-3xl flex items-center justify-center font-bold uppercase bg-[#8230c3]">{user?.name?.[0]}</div>
+                                    }
+                                </div>
+                                <div className="userInfo mt-1 ml-4">
+                                    <h3 className="userName capitalize text-lg font-bold">{user?.name}</h3>
+                                    <p className="text-sm text-[#bdbdbd] ">{user?.email}</p>
+                                    <button onClick={() => setUpdateProfile(true)} className="editProfile text-sm text-[#a785ff]">Edit Profile</button>
+                                </div>
+                            </div>)
                 }
 
                 <Popup message={'Something went wrong. Please try again later.'} isOpen={showPopup} onClose={() => setShowPopup(false)} />

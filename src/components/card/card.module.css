@@ -1,7 +1,6 @@
 .card,
 .cards {
 	width: 100%;
-	overflow: hidden;
 	position: relative;
 	transition: all 0.25s cubic-bezier(0.33, 0.04, 0.63, 0.93);
 	overflow: hidden;

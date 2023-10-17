@@ -14,7 +14,7 @@ export const loginUser = createAsyncThunk("auth/loginUser", async (userData) => 
 
 export const updateInfo = createAsyncThunk("auth/updateInfo", async (userData) => {
     try {
-        const response = await axios.post('https://academics.newtonschool.co/api/v1/user/login', {
+        const response = await axios.patch('https://academics.newtonschool.co/api/v1/user/updateme', {
             ...userData
         });
         return response.data;
@@ -79,13 +79,11 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(updateInfo.fulfilled, (state, { payload }) => {
-                const { token, data } = payload;
-                state.loading = false;
-                state.user = { ...data };
+                const { data } = payload;
+                state.user = { ...data.user };
                 state.authenticated = true;
                 state.loading = false;
-                window.localStorage.setItem('auth_token_zee5', token);
-                window.localStorage.setItem('user_zee5', JSON.stringify(data));
+                window.localStorage.setItem('user_zee5', JSON.stringify(data.user));
             })
             .addCase(updateInfo.rejected, (state, { error }) => {
                 state.loading = false;

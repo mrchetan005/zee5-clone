@@ -61,7 +61,7 @@ const Sign = ({ details }) => {
             ...prev,
             [name]: value
         }));
-        handleOnBlur(e)
+        handleOnBlur(e);
     }
 
 
